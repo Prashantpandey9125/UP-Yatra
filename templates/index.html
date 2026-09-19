@@ -1,0 +1,2376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        UP Yatra | Explore Uttar Pradesh
+    </title>
+
+    <meta
+        name="description"
+        content="UP Yatra - Explore Uttar Pradesh tourism, destinations, heritage, spirituality, food, nature and smart travel planning."
+    >
+
+    <!-- =====================================================
+                         GOOGLE FONTS
+    ====================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =====================================================
+                              CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+                       PROGRESS BAR
+===================================================== -->
+
+<div class="progress">
+
+    <span id="progressBar"></span>
+
+</div>
+
+
+<!-- =====================================================
+                            NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <a
+        class="brand"
+        href="#home"
+    >
+
+        <span>UP</span> Yatra
+
+    </a>
+
+
+    <button
+        class="menu-btn"
+        id="menuBtn"
+        aria-label="Open menu"
+        type="button"
+    >
+
+        ☰
+
+    </button>
+
+
+    <nav id="navLinks">
+
+        <a href="#home">
+            Home
+        </a>
+
+        <a href="#destinations">
+            Destinations
+        </a>
+
+        <a href="#planner">
+            Planner
+        </a>
+
+        <a href="#weather">
+            Weather
+        </a>
+
+        <a href="#stay">
+            Stay
+        </a>
+
+        <a href="#gallery">
+            Gallery
+        </a>
+
+        <a href="#tips">
+            Guide
+        </a>
+
+        <a href="#contact">
+            Contact
+        </a>
+
+
+        <button
+            class="icon-btn"
+            id="themeBtn"
+            title="Toggle dark mode"
+            type="button"
+        >
+
+            ◐
+
+        </button>
+
+
+        <button
+            class="fav-btn"
+            id="favNavBtn"
+            type="button"
+        >
+
+            ♡
+
+            <span id="favCount">
+                0
+            </span>
+
+        </button>
+
+    </nav>
+
+</header>
+
+
+<!-- =====================================================
+                            MAIN
+===================================================== -->
+
+<main>
+
+
+<!-- =====================================================
+                            HERO
+===================================================== -->
+
+<section
+    class="hero"
+    id="home"
+>
+
+    <div class="hero-overlay"></div>
+
+
+    <div class="hero-content reveal">
+
+        <p class="eyebrow">
+
+            ONLY UTTAR PRADESH • INDIA
+
+        </p>
+
+
+        <h1>
+
+            Discover the
+
+            <span>
+                Heart of India.
+            </span>
+
+        </h1>
+
+
+        <p class="hero-text">
+
+            Heritage, spirituality, culture, food and nature —
+            explore Uttar Pradesh through one smart tourism platform.
+
+        </p>
+
+
+        <div class="hero-actions">
+
+            <a
+                href="#destinations"
+                class="btn primary"
+            >
+
+                Explore UP
+
+                <span>
+                    →
+                </span>
+
+            </a>
+
+
+            <a
+                href="#planner"
+                class="btn ghost"
+            >
+
+                Plan My Trip
+
+            </a>
+
+        </div>
+
+
+        <!-- HERO SEARCH -->
+
+        <div class="search-box">
+
+            <span>
+                ⌕
+            </span>
+
+
+            <input
+                id="heroSearch"
+                type="search"
+                placeholder="Search Agra, Varanasi, Ayodhya..."
+                autocomplete="off"
+            >
+
+
+            <button
+                id="searchBtn"
+                type="button"
+            >
+
+                Search
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- HERO STATS -->
+
+    <div class="hero-stats">
+
+        <div>
+
+            <strong>
+                12+
+            </strong>
+
+            <small>
+                UP Destinations
+            </small>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                4
+            </strong>
+
+            <small>
+                Travel Styles
+            </small>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                1
+            </strong>
+
+            <small>
+                Smart Planner
+            </small>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+                            INTRO
+===================================================== -->
+
+<section
+    class="section intro reveal"
+    id="about"
+>
+
+    <div>
+
+        <p class="eyebrow">
+            WHY UP?
+        </p>
+
+
+        <h2>
+
+            One state.
+
+            <span>
+                Many stories.
+            </span>
+
+        </h2>
+
+    </div>
+
+
+    <p>
+
+        From the Taj Mahal to the Ganga ghats,
+        from Nawabi Lucknow to the forests of Dudhwa,
+        Uttar Pradesh offers experiences across history,
+        spirituality, food, culture and nature.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+                        WHY VISIT UP
+===================================================== -->
+
+<section
+    class="section"
+    id="why"
+>
+
+    <div class="section-head reveal">
+
+        <div>
+
+            <p class="eyebrow">
+                WHY VISIT
+            </p>
+
+
+            <h2>
+
+                Experience UP
+
+                <span>
+                    your way
+                </span>
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+
+        <article class="feature-card reveal">
+
+            <div class="feature-icon">
+                🏛️
+            </div>
+
+
+            <h3>
+                Heritage
+            </h3>
+
+
+            <p>
+
+                Historic monuments, forts,
+                architecture and cultural landmarks.
+
+            </p>
+
+        </article>
+
+
+        <article class="feature-card reveal">
+
+            <div class="feature-icon">
+                🪔
+            </div>
+
+
+            <h3>
+                Spirituality
+            </h3>
+
+
+            <p>
+
+                Temples, ghats, pilgrimage towns
+                and peaceful experiences.
+
+            </p>
+
+        </article>
+
+
+        <article class="feature-card reveal">
+
+            <div class="feature-icon">
+                🍛
+            </div>
+
+
+            <h3>
+                Food
+            </h3>
+
+
+            <p>
+
+                Awadhi, Mughlai, Banarasi
+                and regional flavours to discover.
+
+            </p>
+
+        </article>
+
+
+        <article class="feature-card reveal">
+
+            <div class="feature-icon">
+                🌿
+            </div>
+
+
+            <h3>
+                Nature
+            </h3>
+
+
+            <p>
+
+                Forests, wildlife and refreshing
+                escapes across the state.
+
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+                     INTERACTIVE UP MAP
+===================================================== -->
+
+<section class="section map-section">
+
+    <div class="section-head reveal">
+
+        <div>
+
+            <p class="eyebrow">
+                EXPLORE ON MAP
+            </p>
+
+
+            <h2>
+
+                UP
+
+                <span>
+                    Highlights
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <p class="muted">
+
+            Click a destination marker
+            to explore its details.
+
+        </p>
+
+    </div>
+
+
+    <div class="map-wrap reveal">
+
+
+        <!-- MAP -->
+
+        <div class="up-map">
+
+            <div class="map-shape"></div>
+
+
+            <div class="map-title">
+
+                <span>
+                    📍
+                </span>
+
+
+                <div>
+
+                    <h3>
+                        Explore Uttar Pradesh
+                    </h3>
+
+
+                    <p>
+                        Click a destination to explore
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="map-pin pin-agra"
+                data-slug="agra"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Agra
+
+            </button>
+
+
+            <button
+                class="map-pin pin-fatehpur"
+                data-slug="fatehpur-sikri"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Fatehpur Sikri
+
+            </button>
+
+
+            <button
+                class="map-pin pin-mathura"
+                data-slug="mathura-vrindavan"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Mathura
+
+            </button>
+
+
+            <button
+                class="map-pin pin-lucknow"
+                data-slug="lucknow"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Lucknow
+
+            </button>
+
+
+            <button
+                class="map-pin pin-kanpur"
+                data-slug="kanpur"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Kanpur
+
+            </button>
+
+
+            <button
+                class="map-pin pin-ayodhya"
+                data-slug="ayodhya"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Ayodhya
+
+            </button>
+
+
+            <button
+                class="map-pin pin-prayagraj"
+                data-slug="prayagraj"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Prayagraj
+
+            </button>
+
+
+            <button
+                class="map-pin pin-varanasi"
+                data-slug="varanasi"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Varanasi
+
+            </button>
+
+
+            <button
+                class="map-pin pin-sarnath"
+                data-slug="sarnath"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Sarnath
+
+            </button>
+
+
+            <button
+                class="map-pin pin-vindhyachal"
+                data-slug="vindhyachal"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Vindhyachal
+
+            </button>
+
+
+            <button
+                class="map-pin pin-jhansi"
+                data-slug="jhansi"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Jhansi
+
+            </button>
+
+
+            <button
+                class="map-pin pin-dudhwa"
+                data-slug="dudhwa"
+                type="button"
+            >
+
+                <span>
+                    📍
+                </span>
+
+                Dudhwa
+
+            </button>
+
+        </div>
+
+
+        <!-- MAP SIDE -->
+
+        <div class="map-side">
+
+            <p class="eyebrow">
+                QUICK DISCOVERY
+            </p>
+
+
+            <h3>
+
+                Choose a destination
+                and start exploring.
+
+            </h3>
+
+
+            <p>
+
+                Click any destination marker
+                to view complete destination
+                information, save it as a favourite
+                or add it to your trip plan.
+
+            </p>
+
+
+            <a
+                class="btn dark"
+                href="#planner"
+            >
+
+                Open Smart Planner →
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+                        DESTINATIONS
+===================================================== -->
+
+<section
+    class="section"
+    id="destinations"
+>
+
+    <div class="section-head reveal">
+
+        <div>
+
+            <p class="eyebrow">
+                TOP PICKS
+            </p>
+
+
+            <h2>
+
+                Popular
+
+                <span>
+                    Destinations
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <p class="muted">
+
+            Explore only destinations located
+            in Uttar Pradesh.
+
+        </p>
+
+    </div>
+
+
+    <!-- FILTERS -->
+
+    <div class="filters reveal">
+
+        <button
+            class="filter active"
+            data-filter="All"
+            type="button"
+        >
+            All
+        </button>
+
+
+        <button
+            class="filter"
+            data-filter="Heritage"
+            type="button"
+        >
+            Heritage
+        </button>
+
+
+        <button
+            class="filter"
+            data-filter="Spiritual"
+            type="button"
+        >
+            Spiritual
+        </button>
+
+
+        <button
+            class="filter"
+            data-filter="Culture"
+            type="button"
+        >
+            Culture
+        </button>
+
+
+        <button
+            class="filter"
+            data-filter="Nature"
+            type="button"
+        >
+            Nature
+        </button>
+
+
+        <button
+            class="filter"
+            data-filter="City"
+            type="button"
+        >
+            City
+        </button>
+
+    </div>
+
+
+    <div
+        id="destinationGrid"
+        class="destination-grid"
+    ></div>
+
+</section>
+
+
+<!-- =====================================================
+                    SMART TRIP PLANNER
+===================================================== -->
+
+<section
+    class="section planner-section"
+    id="planner"
+>
+
+    <div class="planner-card reveal">
+
+        <div class="planner-copy">
+
+            <p class="eyebrow">
+                SMART TRIP PLANNER
+            </p>
+
+
+            <h2>
+
+                Build your UP trip
+
+                <span>
+                    in seconds.
+                </span>
+
+            </h2>
+
+
+            <p>
+
+                Select a destination, number of days,
+                budget and travel type.
+                The Python backend generates
+                and stores your plan in SQLite.
+
+            </p>
+
+
+            <div class="planner-mini">
+
+                <span>
+                    ✓
+                </span>
+
+                Personalized itinerary
+
+            </div>
+
+
+            <div class="planner-mini">
+
+                <span>
+                    ✓
+                </span>
+
+                Budget & travel style
+
+            </div>
+
+
+            <div class="planner-mini">
+
+                <span>
+                    ✓
+                </span>
+
+                Saved in database
+
+            </div>
+
+        </div>
+
+
+        <form
+            id="plannerForm"
+            class="planner-form"
+        >
+
+            <label>
+
+                Destination
+
+                <select
+                    id="planDestination"
+                    required
+                ></select>
+
+            </label>
+
+
+            <label>
+
+                Days
+
+                <input
+                    id="planDays"
+                    type="number"
+                    min="1"
+                    max="10"
+                    value="3"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+
+                Budget
+
+                <select id="planBudget">
+
+                    <option>
+                        Budget
+                    </option>
+
+                    <option selected>
+                        Standard
+                    </option>
+
+                    <option>
+                        Luxury
+                    </option>
+
+                </select>
+
+            </label>
+
+
+            <label>
+
+                Travel Type
+
+                <select id="planType">
+
+                    <option>
+                        Family
+                    </option>
+
+                    <option selected>
+                        Friends
+                    </option>
+
+                    <option>
+                        Couple
+                    </option>
+
+                    <option>
+                        Solo
+                    </option>
+
+                </select>
+
+            </label>
+
+
+            <button
+                class="btn primary full"
+                type="submit"
+            >
+
+                Generate My Plan ✦
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div
+        id="plannerResult"
+        class="planner-result hidden"
+    ></div>
+
+</section>
+
+
+<!-- =====================================================
+                       LIVE WEATHER
+===================================================== -->
+
+<section
+    class="section weather-section"
+    id="weather"
+>
+
+    <div class="section-head reveal">
+
+        <div>
+
+            <p class="eyebrow">
+                LIVE WEATHER
+            </p>
+
+
+            <h2>
+
+                Check UP
+
+                <span>
+                    Weather
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <p class="muted">
+
+            Check weather before planning your journey.
+
+        </p>
+
+    </div>
+
+
+    <div class="weather-card reveal">
+
+
+        <!-- WEATHER SEARCH -->
+
+        <div class="weather-search">
+
+            <select
+                id="weatherDestination"
+                class="weather-select"
+            >
+
+                <option value="">
+                    Select Destination
+                </option>
+
+
+                <option value="agra">
+                    Agra
+                </option>
+
+
+                <option value="varanasi">
+                    Varanasi
+                </option>
+
+
+                <option value="ayodhya">
+                    Ayodhya
+                </option>
+
+
+                <option value="lucknow">
+                    Lucknow
+                </option>
+
+
+                <option value="mathura-vrindavan">
+                    Mathura - Vrindavan
+                </option>
+
+
+                <option value="prayagraj">
+                    Prayagraj
+                </option>
+
+
+                <option value="sarnath">
+                    Sarnath
+                </option>
+
+
+                <option value="jhansi">
+                    Jhansi
+                </option>
+
+
+                <option value="dudhwa">
+                    Dudhwa
+                </option>
+
+
+                <option value="fatehpur-sikri">
+                    Fatehpur Sikri
+                </option>
+
+
+                <option value="vindhyachal">
+                    Vindhyachal
+                </option>
+
+
+                <option value="kanpur">
+                    Kanpur
+                </option>
+
+            </select>
+
+
+            <button
+                id="weatherBtn"
+                class="btn weather-btn"
+                type="button"
+            >
+
+                Check Weather
+
+            </button>
+
+        </div>
+
+
+        <!-- WEATHER RESULT -->
+
+        <div
+            id="weatherResult"
+            class="weather-result"
+        >
+
+            <div class="weather-placeholder">
+
+                <div class="weather-icon">
+                    🌤️
+                </div>
+
+
+                <h3>
+                    Select a destination
+                </h3>
+
+
+                <p>
+
+                    Check the current weather
+                    before starting your UP trip.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+                         GALLERY
+===================================================== -->
+
+<section
+    class="section"
+    id="gallery"
+>
+
+    <div class="section-head reveal">
+
+        <div>
+
+            <p class="eyebrow">
+                VISUAL JOURNEY
+            </p>
+
+
+            <h2>
+
+                Gallery of
+
+                <span>
+                    UP
+                </span>
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="gallery-grid">
+
+
+        <button
+            class="gallery-item reveal"
+            data-full="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1600&q=90"
+            type="button"
+        >
+
+            <img
+                src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=85"
+                alt="Taj Mahal in Agra"
+                loading="lazy"
+            >
+
+            <span>
+                Agra
+            </span>
+
+        </button>
+
+
+        <button
+            class="gallery-item reveal"
+            data-full="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=90"
+            type="button"
+        >
+
+            <img
+                src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=800&q=85"
+                alt="Varanasi"
+                loading="lazy"
+            >
+
+            <span>
+                Varanasi
+            </span>
+
+        </button>
+
+
+        <button
+            class="gallery-item reveal"
+            data-full="https://images.unsplash.com/photo-1605640840605-14ac1855827b?auto=format&fit=crop&w=1600&q=90"
+            type="button"
+        >
+
+            <img
+                src="https://images.unsplash.com/photo-1605640840605-14ac1855827b?auto=format&fit=crop&w=800&q=85"
+                alt="Ayodhya"
+                loading="lazy"
+            >
+
+            <span>
+                Ayodhya
+            </span>
+
+        </button>
+
+
+        <button
+            class="gallery-item reveal"
+            data-full="https://images.unsplash.com/photo-1600100397608-f0104c5b2d9d?auto=format&fit=crop&w=1600&q=90"
+            type="button"
+        >
+
+            <img
+                src="/C:\Users\prxsh\Desktop\LUCKNOW.jpg"
+                alt="Lucknow"
+                loading="lazy"
+            >
+
+            <span>
+                Lucknow
+            </span>
+
+        </button>
+
+
+        <button
+            class="gallery-item reveal"
+            data-full="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=90"
+            type="button"
+        >
+
+            <img
+                src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=85"
+                alt="Mathura Vrindavan"
+                loading="lazy"
+            >
+
+            <span>
+                Mathura
+            </span>
+
+        </button>
+
+
+        <button
+            class="gallery-item reveal"
+            data-full="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1600&q=90"
+            type="button"
+        >
+
+            <img
+                src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=85"
+                alt="Uttar Pradesh heritage"
+                loading="lazy"
+            >
+
+            <span>
+                Heritage
+            </span>
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+                      TRAVEL GUIDE
+===================================================== -->
+
+<section
+    class="section"
+    id="tips"
+>
+
+    <div class="section-head reveal">
+
+        <div>
+
+            <p class="eyebrow">
+                TRAVEL GUIDE
+            </p>
+
+
+            <h2>
+
+                Travel
+
+                <span>
+                    Smart
+                </span>
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="tips-grid">
+
+
+        <article class="tip reveal">
+
+            <b>
+                🚆 How to Reach
+            </b>
+
+
+            <p>
+
+                Major UP cities are connected through
+                railway, road and airports.
+                Check official transport schedules
+                before travelling.
+
+            </p>
+
+        </article>
+
+
+        <article class="tip reveal">
+
+            <b>
+                ☀️ Best Time
+            </b>
+
+
+            <p>
+
+                For many heritage and city trips,
+                October to March is generally comfortable.
+                Nature destinations can have their own
+                seasonal windows.
+
+            </p>
+
+        </article>
+
+
+        <article class="tip reveal">
+
+            <b>
+                🛍️ Shopping
+            </b>
+
+
+            <p>
+
+                Look for chikankari in Lucknow,
+                Banarasi textiles in Varanasi
+                and local handicrafts across UP.
+
+            </p>
+
+        </article>
+
+
+        <article class="tip reveal">
+
+            <b>
+                📍 Local Travel
+            </b>
+
+
+            <p>
+
+                Use registered taxis, public transport
+                and reputable local operators.
+                Keep extra time for busy pilgrimage areas.
+
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+                    REAL STAYS IN UP
+===================================================== -->
+
+<section
+    class="section real-stays"
+    id="stay"
+>
+
+    <div class="section-head reveal">
+
+        <div>
+
+            <p class="eyebrow">
+                🏨 REAL STAYS IN UP
+            </p>
+
+
+            <h2>
+
+                Stay at
+
+                <span>
+                    Real Properties
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <p class="muted">
+
+            Explore accommodation properties
+            across Uttar Pradesh.
+
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+                         CITY FILTERS
+    ================================================== -->
+
+    <div class="stay-filters reveal">
+
+        <button
+            class="stay-filter active"
+            data-city="All"
+            type="button"
+        >
+            All
+        </button>
+
+
+        <button
+            class="stay-filter"
+            data-city="Agra"
+            type="button"
+        >
+            Agra
+        </button>
+
+
+        <button
+            class="stay-filter"
+            data-city="Ayodhya"
+            type="button"
+        >
+            Ayodhya
+        </button>
+
+
+        <button
+            class="stay-filter"
+            data-city="Lucknow"
+            type="button"
+        >
+            Lucknow
+        </button>
+
+
+        <button
+            class="stay-filter"
+            data-city="Varanasi"
+            type="button"
+        >
+            Varanasi
+        </button>
+
+
+        <button
+            class="stay-filter"
+            data-city="Sarnath"
+            type="button"
+        >
+            Sarnath
+        </button>
+
+
+        <button
+            class="stay-filter"
+            data-city="Prayagraj"
+            type="button"
+        >
+            Prayagraj
+        </button>
+
+
+        <button
+            class="stay-filter"
+            data-city="Jhansi"
+            type="button"
+        >
+            Jhansi
+        </button>
+
+
+        <button
+            class="stay-filter"
+            data-city="Fatehpur Sikri"
+            type="button"
+        >
+            Fatehpur Sikri
+        </button>
+
+
+        <button
+            class="stay-filter"
+            data-city="Kanpur"
+            type="button"
+        >
+            Kanpur
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+                         REAL STAY GRID
+    ================================================== -->
+
+    <div
+        id="stayGrid"
+        class="stay-grid"
+    ></div>
+
+
+    <!-- =================================================
+                         INFORMATION NOTE
+    ================================================== -->
+
+    <div class="stay-note reveal">
+
+        <span>
+            ℹ️
+        </span>
+
+        <p>
+
+            Property information is provided for
+            tourism discovery. Check the property's
+            official source for current availability,
+            room rates and booking conditions.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+                         REVIEWS
+===================================================== -->
+
+<section class="section reviews">
+
+    <div class="section-head reveal">
+
+        <div>
+
+            <p class="eyebrow">
+                visitor reviews
+            </p>
+
+
+            <h2>
+
+                What travellers
+
+                <span>
+                    might say
+                </span>
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="review-grid">
+
+
+        <article class="review reveal">
+
+            <div>
+                ★★★★★
+            </div>
+
+
+            <p>
+
+                “The trip planner makes it easy
+                to turn a destination idea
+                into a simple itinerary.”
+
+            </p>
+
+
+            <b>
+                — visitor reviewsr
+            </b>
+
+        </article>
+
+
+        <article class="review reveal">
+
+            <div>
+                ★★★★★
+            </div>
+
+
+            <p>
+
+                “The destination cards give
+                a clean overview before deciding
+                where to go.”
+
+            </p>
+
+
+            <b>
+                — visitor reviews
+            </b>
+
+        </article>
+
+
+        <article class="review reveal">
+
+            <div>
+                ★★★★★
+            </div>
+
+
+            <p>
+
+                "A well-designed platform to explore the rich culture, heritage, and tourist attractions of Uttar Pradesh."
+
+            </p>
+
+
+            <b>
+               - visitor reviews
+            </b>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+                           CONTACT
+===================================================== -->
+
+<section
+    class="section contact-section"
+    id="contact"
+>
+
+    <div class="contact-grid">
+
+
+        <div class="reveal">
+
+            <p class="eyebrow">
+                CONTACT
+            </p>
+
+
+            <h2>
+
+                Let's build better
+
+                <span>
+                    travel experiences.
+                </span>
+
+            </h2>
+
+
+            <p class="muted">
+
+                we'd love to hear from you! send me your questions. feedback , or travel inquries, and our team will grt back to you as soon as possible.
+
+            </p>
+
+
+            <div class="contact-points">
+
+                <span>
+                    📍 Uttar Pradesh, India
+                </span>
+
+
+                <span>
+                    ✉️ pandeyprashant9125@gmail.com
+                </span>
+
+
+                <span>
+                    🌐 UP-only tourism platform
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <form
+            id="contactForm"
+            class="contact-form reveal"
+        >
+
+            <input
+                id="contactName"
+                name="name"
+                placeholder="Your name"
+                required
+            >
+
+
+            <input
+                id="contactEmail"
+                name="email"
+                type="email"
+                placeholder="Email address"
+                required
+            >
+
+
+            <input
+                id="contactSubject"
+                name="subject"
+                placeholder="Subject"
+            >
+
+
+            <textarea
+                id="contactMessage"
+                name="message"
+                rows="5"
+                placeholder="Your message"
+                required
+            ></textarea>
+
+
+            <button
+                class="btn primary full"
+                type="submit"
+            >
+
+                Send Message
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =====================================================
+                           FOOTER
+===================================================== -->
+
+<footer>
+
+
+    <div>
+
+        <a
+            class="brand"
+            href="#home"
+        >
+
+            <span>
+                UP
+            </span>
+
+            Yatra
+
+        </a>
+
+
+        <p>
+
+            Explore Uttar Pradesh.
+            One smart tourism platform.❤️
+
+        </p>
+
+    </div>
+
+
+    <div class="footer-links">
+
+        <a href="#destinations">
+            Destinations
+        </a>
+
+
+        <a href="#planner">
+            Planner
+        </a>
+
+
+        <a href="#weather">
+            Weather
+        </a>
+
+
+        <a href="#stay">
+            Stay
+        </a>
+
+
+        <a href="#gallery">
+            Gallery
+        </a>
+
+
+        <a href="#contact">
+            Contact
+        </a>
+
+    </div>
+
+
+    <small>
+
+        ❤️2026 UP Yatra • welcome to uttarpradesh 
+
+    </small>
+
+</footer>
+
+
+<!-- =====================================================
+                    DESTINATION MODAL
+===================================================== -->
+
+<div
+    class="modal hidden"
+    id="destinationModal"
+>
+
+    <div class="modal-box">
+
+
+        <button
+            class="close"
+            id="modalClose"
+            type="button"
+        >
+
+            ×
+
+        </button>
+
+
+        <img
+            id="modalImage"
+            src=""
+            alt=""
+        >
+
+
+        <div class="modal-body">
+
+
+            <span
+                class="tag"
+                id="modalCategory"
+            ></span>
+
+
+            <h2 id="modalTitle"></h2>
+
+
+            <p id="modalDescription"></p>
+
+
+            <div class="modal-info">
+
+
+                <div>
+
+                    <b>
+                        📍 Location
+                    </b>
+
+
+                    <span id="modalLocation"></span>
+
+                </div>
+
+
+                <div>
+
+                    <b>
+                        ☀️ Best Time
+                    </b>
+
+
+                    <span id="modalTime"></span>
+
+                </div>
+
+
+                <div>
+
+                    <b>
+                        🍛 Food
+                    </b>
+
+
+                    <span id="modalFood"></span>
+
+                </div>
+
+
+                <div>
+
+                    <b>
+                        📌 Must See
+                    </b>
+
+
+                    <span id="modalPlaces"></span>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+
+                <button
+                    class="btn primary"
+                    id="modalFav"
+                    type="button"
+                >
+
+                    ♡ Save Favourite
+
+                </button>
+
+
+                <a
+                    class="btn dark"
+                    id="modalMap"
+                    target="_blank"
+                    rel="noopener"
+                >
+
+                    Open Map ↗
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+                     GALLERY LIGHTBOX
+===================================================== -->
+
+<div
+    class="modal hidden"
+    id="lightbox"
+>
+
+    <button
+        class="light-close"
+        id="lightClose"
+        type="button"
+    >
+
+        ×
+
+    </button>
+
+
+    <button
+        class="light-nav left"
+        id="lightPrev"
+        type="button"
+    >
+
+        ‹
+
+    </button>
+
+
+    <img
+        id="lightboxImage"
+        src=""
+        alt=""
+    >
+
+
+    <button
+        class="light-nav right"
+        id="lightNext"
+        type="button"
+    >
+
+        ›
+
+    </button>
+
+
+    <div
+        class="light-counter"
+        id="lightCounter"
+    ></div>
+
+</div>
+
+
+<!-- =====================================================
+                           TOAST
+===================================================== -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<!-- =====================================================
+                        BACK TO TOP
+===================================================== -->
+
+<button
+    class="top-btn"
+    id="backTop"
+    type="button"
+>
+
+    ↑
+
+</button>
+
+
+<!-- =====================================================
+                    AI TOURISM CHATBOT
+===================================================== -->
+
+<div class="chatbot">
+
+
+    <button
+        id="chatbotToggle"
+        class="chatbot-toggle"
+        aria-label="Open UP Yatra AI chatbot"
+        title="UP Yatra AI"
+        type="button"
+    >
+
+        🤖
+
+    </button>
+
+
+    <div
+        id="chatbotBox"
+        class="chatbot-box hidden"
+    >
+
+
+        <div class="chatbot-header">
+
+
+            <div>
+
+                <strong>
+                    UP Yatra AI
+                </strong>
+
+
+                <small>
+                    Uttar Pradesh Tourism Assistant
+                </small>
+
+            </div>
+
+
+            <button
+                id="chatbotClose"
+                type="button"
+                aria-label="Close chatbot"
+            >
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="chatMessages"
+            class="chat-messages"
+        >
+
+
+            <div class="chat-message bot">
+
+                <div class="message-bubble">
+
+
+                    👋 Namaste!
+
+
+                    <br><br>
+
+
+                    I'm
+
+                    <strong>
+                        UP Yatra AI
+                    </strong>,
+
+                    your Uttar Pradesh
+                    tourism assistant.
+
+
+                    <br><br>
+
+
+                    I can help you with:
+
+
+                    <br>
+
+                    🏛️ Destinations
+
+                    <br>
+
+                    🪔 Spiritual places
+
+                    <br>
+
+                    🍛 UP food
+
+                    <br>
+
+                    🧳 Trip planning
+
+                    <br>
+
+                    💰 Budget ideas
+
+
+                    <br><br>
+
+
+                    Try asking:
+
+
+                    <br>
+
+
+                    <b>
+                        Best places in Agra?
+                    </b>
+
+
+                    <br>
+
+
+                    <b>
+                        Plan a trip to Varanasi
+                    </b>
+
+
+                    <br>
+
+
+                    <b>
+                        Best time to visit Ayodhya?
+                    </b>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="chatbot-input-area">
+
+
+            <input
+                type="text"
+                id="chatInput"
+                placeholder="Ask about Uttar Pradesh..."
+                autocomplete="off"
+                aria-label="Chat message"
+            >
+
+
+            <button
+                id="chatSend"
+                type="button"
+                aria-label="Send message"
+            >
+
+                ➤
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+                         JAVASCRIPT
+===================================================== -->
+
+<script
+    src="{{ url_for('static', filename='app.js') }}"
+></script>
+
+
+<script
+    src="{{ url_for('static', filename='chatbot.js') }}"
+></script>
+
+
+</body>
+
+</html>
