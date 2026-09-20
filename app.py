@@ -14,6 +14,20 @@ DB_PATH = BASE_DIR / "up_tourism.db"
 
 app = Flask(__name__)
 app.secret_key = "up-yatra-secret-key-2026"
+IMAGE_URLS = {
+    "agra": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Taj_mahal_Agra.jpg",
+    "varanasi": "https://commons.wikimedia.org/wiki/Special:Redirect/file/DASHASHWAMEDH_GHAT%2C_VARANASI.jpg",
+    "ayodhya": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Ram_Mandir%2C_Ayodhya.png",
+    "lucknow": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bara_Imam_Bara.jpg",
+    "mathura-vrindavan": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Prem_Mandir%2C_Vrindavan.jpg",
+    "prayagraj": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Triveni_Sangam_Prayagraj.jpg",
+    "sarnath": "https://commons.wikimedia.org/wiki/Special:Redirect/file/SARNATH_DHAMEK_STUPA.jpg",
+    "jhansi": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Jhansi_Fort.jpg",
+    "dudhwa": "https://commons.wikimedia.org/wiki/Special:Redirect/file/DUDHWA_NATIONAL_PARK.jpg",
+    "fatehpur-sikri": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Buland_Darwaza_%28Fatehpur_Sikri%29.jpg",
+    "vindhyachal": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Maa_Vindhyavasini_temple%2C_Vindhyachal.jpg",
+    "kanpur": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Ganga_Barrage_Kanpur.jpg"
+}
 
 # =========================================================
 # DEFAULT UP TOURISM DESTINATIONS
@@ -30,7 +44,7 @@ DESTINATIONS = [
         "best_time": "October - March",
         "food": "Petha, Mughlai cuisine",
         "places": "Taj Mahal, Agra Fort, Mehtab Bagh, Itmad-ud-Daulah",
-        "image": "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["agra"]
     },
     {
         "slug": "varanasi",
@@ -42,7 +56,7 @@ DESTINATIONS = [
         "best_time": "October - March",
         "food": "Kachori-sabzi, lassi, Banarasi paan",
         "places": "Dashashwamedh Ghat, Assi Ghat, Kashi Vishwanath area, Manikarnika Ghat",
-        "image": "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["varanasi"]
     },
     {
         "slug": "ayodhya",
@@ -54,7 +68,7 @@ DESTINATIONS = [
         "best_time": "October - March",
         "food": "North Indian vegetarian cuisine, local sweets",
         "places": "Ram Mandir area, Hanuman Garhi, Kanak Bhawan, Saryu Ghat",
-        "image": "https://images.unsplash.com/photo-1605640840605-14ac1855827b?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["ayodhya"]
     },
     {
         "slug": "lucknow",
@@ -66,7 +80,7 @@ DESTINATIONS = [
         "best_time": "October - February",
         "food": "Tunday kebab, Lucknowi biryani, basket chaat",
         "places": "Bara Imambara, Chota Imambara, Rumi Darwaza, Residency",
-        "image": "https://images.unsplash.com/photo-1600100397608-f0104c5b2d9d?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["lucknow"]
     },
     {
         "slug": "mathura-vrindavan",
@@ -78,7 +92,7 @@ DESTINATIONS = [
         "best_time": "October - March",
         "food": "Peda, lassi, North Indian vegetarian food",
         "places": "Shri Krishna Janmabhoomi area, Banke Bihari Temple area, Prem Mandir, Vishram Ghat",
-        "image": "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["mathura-vrindavan"]
     },
     {
         "slug": "prayagraj",
@@ -90,7 +104,7 @@ DESTINATIONS = [
         "best_time": "October - March",
         "food": "Kachori-sabzi, street snacks",
         "places": "Triveni Sangam, Anand Bhavan, Allahabad Fort area, Khusro Bagh",
-        "image": "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["prayagraj"]
     },
     {
         "slug": "sarnath",
@@ -102,7 +116,7 @@ DESTINATIONS = [
         "best_time": "October - March",
         "food": "Banarasi and North Indian cuisine",
         "places": "Dhamek Stupa, Sarnath Museum, Chaukhandi Stupa, Deer Park",
-        "image": "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["sarnath"]
     },
     {
         "slug": "jhansi",
@@ -114,7 +128,7 @@ DESTINATIONS = [
         "best_time": "October - March",
         "food": "Bundelkhandi and North Indian dishes",
         "places": "Jhansi Fort, Rani Mahal, Government Museum",
-        "image": "https://images.unsplash.com/photo-1595658658481-d53d3f999875?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["jhansi"]
     },
     {
         "slug": "dudhwa",
@@ -126,7 +140,7 @@ DESTINATIONS = [
         "best_time": "November - April",
         "food": "Local North Indian cuisine",
         "places": "Dudhwa National Park, forest zones, nature areas",
-        "image": "https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["dudhwa"]
     },
     {
         "slug": "fatehpur-sikri",
@@ -138,7 +152,7 @@ DESTINATIONS = [
         "best_time": "October - March",
         "food": "Agra-region cuisine and sweets",
         "places": "Buland Darwaza, Jama Masjid, Diwan-i-Khas, Panch Mahal",
-        "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["fatehpur-sikri"]
     },
     {
         "slug": "vindhyachal",
@@ -150,7 +164,7 @@ DESTINATIONS = [
         "best_time": "October - March",
         "food": "North Indian vegetarian food and local sweets",
         "places": "Vindhyavasini Temple, Kali Khoh, Ashtabhuja",
-        "image": "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["vindhyachal"]
     },
     {
         "slug": "kanpur",
@@ -162,7 +176,7 @@ DESTINATIONS = [
         "best_time": "October - February",
         "food": "Thaggu ke laddu, street food, North Indian cuisine",
         "places": "JK Temple, Moti Jheel, Allen Forest Zoo, Ganga Barrage",
-        "image": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=85"
+        "image": IMAGE_URLS["kanpur"]
     }
 ]
 
@@ -363,6 +377,21 @@ def init_db():
             destination["places"],
             destination["image"]
         ))
+
+    # =====================================================
+    # UPDATE DESTINATION IMAGES
+    # =====================================================
+    # Existing SQLite rows may already contain the old image URLs.
+    # This keeps the database synchronized with IMAGE_URLS on every startup.
+    for slug, image_url in IMAGE_URLS.items():
+        conn.execute(
+            """
+            UPDATE destinations
+            SET image = ?
+            WHERE slug = ?
+            """,
+            (image_url, slug)
+        )
 
     # =====================================================
     # SEED REAL STAYS
