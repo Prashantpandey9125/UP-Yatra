@@ -107,6 +107,18 @@
             Planner
         </a>
 
+        <a href="#budget">
+            Budget
+        </a>
+
+        <a href="#food">
+            Food
+        </a>
+
+        <a href="#festivals">
+            Festivals
+        </a>
+
         <a href="#weather">
             Weather
         </a>
@@ -1064,6 +1076,161 @@
 
 </section>
 
+<!-- =====================================================
+                    BUDGET CALCULATOR
+===================================================== -->
+
+<section
+    class="section budget-section"
+    id="budget"
+>
+
+    <div class="section-head reveal">
+
+        <div>
+
+            <p class="eyebrow">
+                SMART BUDGET TOOL
+            </p>
+
+            <h2>
+                Estimate your
+                <span>UP Trip Cost</span>
+            </h2>
+
+        </div>
+
+        <p class="muted">
+            Enter your own approximate rates and get an instant estimate.
+        </p>
+
+    </div>
+
+
+    <div class="budget-layout reveal">
+
+        <form
+            id="budgetForm"
+            class="budget-form"
+        >
+
+            <div class="budget-form-title">
+                <span>💰</span>
+                <div>
+                    <h3>Trip Budget Calculator</h3>
+                    <p>Sample estimates only — adjust them for your actual plan.</p>
+                </div>
+            </div>
+
+            <div class="budget-fields">
+
+                <label>
+                    Travellers
+                    <input
+                        id="budgetPeople"
+                        type="number"
+                        min="1"
+                        max="20"
+                        value="2"
+                        required
+                    >
+                </label>
+
+                <label>
+                    Days
+                    <input
+                        id="budgetDays"
+                        type="number"
+                        min="1"
+                        max="30"
+                        value="3"
+                        required
+                    >
+                </label>
+
+                <label>
+                    Hotel / person / night (₹)
+                    <input
+                        id="budgetHotel"
+                        type="number"
+                        min="0"
+                        value="1500"
+                        required
+                    >
+                </label>
+
+                <label>
+                    Food / person / day (₹)
+                    <input
+                        id="budgetFood"
+                        type="number"
+                        min="0"
+                        value="500"
+                        required
+                    >
+                </label>
+
+                <label>
+                    Transport / person / day (₹)
+                    <input
+                        id="budgetTransport"
+                        type="number"
+                        min="0"
+                        value="800"
+                        required
+                    >
+                </label>
+
+                <label>
+                    Activities / person / day (₹)
+                    <input
+                        id="budgetActivities"
+                        type="number"
+                        min="0"
+                        value="300"
+                        required
+                    >
+                </label>
+
+            </div>
+
+            <button
+                class="btn primary full"
+                type="submit"
+            >
+                Calculate My Budget 💰
+            </button>
+
+        </form>
+
+
+        <div
+            id="budgetResult"
+            class="budget-result"
+        >
+
+            <p class="eyebrow">
+                ESTIMATED COST
+            </p>
+
+            <h3>
+                Plan your spend with confidence.
+            </h3>
+
+            <p class="muted">
+                Fill the calculator to see a trip estimate.
+            </p>
+
+            <div class="budget-total-placeholder">
+                ₹ 0
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
 
 <!-- =====================================================
                        LIVE WEATHER
@@ -1249,24 +1416,15 @@
                 VISUAL JOURNEY
             </p>
 
-
             <h2>
-
                 Gallery of
-
-                <span>
-                    UP
-                </span>
-
+                <span>UP</span>
             </h2>
 
         </div>
 
-
         <p class="muted">
-
             Explore iconic places from across Uttar Pradesh.
-
         </p>
 
     </div>
@@ -1274,270 +1432,255 @@
 
     <div class="gallery-grid">
 
-
-        <!-- AGRA -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Taj_mahal_Agra.jpg"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Taj_mahal_Agra.jpg"
-                alt="Taj Mahal in Agra, Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Agra
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Taj_mahal_Agra.jpg" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Taj_mahal_Agra.jpg" alt="Taj Mahal in Agra, Uttar Pradesh" loading="lazy">
+            <span>Agra</span>
         </button>
 
-
-        <!-- VARANASI -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/DASHASHWAMEDH_GHAT%2C_VARANASI.jpg"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/DASHASHWAMEDH_GHAT%2C_VARANASI.jpg"
-                alt="Dashashwamedh Ghat in Varanasi, Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Varanasi
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/DASHASHWAMEDH_GHAT%2C_VARANASI.jpg" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/DASHASHWAMEDH_GHAT%2C_VARANASI.jpg" alt="Dashashwamedh Ghat in Varanasi, Uttar Pradesh" loading="lazy">
+            <span>Varanasi</span>
         </button>
 
-
-        <!-- AYODHYA -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Ram_Mandir%2C_Ayodhya.png"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Ram_Mandir%2C_Ayodhya.png"
-                alt="Ram Mandir in Ayodhya, Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Ayodhya
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Ram_Mandir%2C_Ayodhya.png" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Ram_Mandir%2C_Ayodhya.png" alt="Ram Mandir in Ayodhya, Uttar Pradesh" loading="lazy">
+            <span>Ayodhya</span>
         </button>
 
-
-        <!-- LUCKNOW -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Bara_Imam_Bara.jpg"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Bara_Imam_Bara.jpg"
-                alt="Bara Imambara in Lucknow, Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Lucknow
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Bara_Imam_Bara.jpg" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Bara_Imam_Bara.jpg" alt="Bara Imambara in Lucknow, Uttar Pradesh" loading="lazy">
+            <span>Lucknow</span>
         </button>
 
-
-        <!-- MATHURA - VRINDAVAN -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Prem_Mandir%2C_Vrindavan.jpg"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Prem_Mandir%2C_Vrindavan.jpg"
-                alt="Prem Mandir in Vrindavan, Mathura, Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Mathura - Vrindavan
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Prem_mandir%2C_Vrindavan.jpg" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Prem_mandir%2C_Vrindavan.jpg" alt="Prem Mandir in Vrindavan, Uttar Pradesh" loading="lazy">
+            <span>Mathura - Vrindavan</span>
         </button>
 
-
-        <!-- PRAYAGRAJ -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Triveni_sangam_prayagraj.jpg"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Triveni_sangam_prayagraj.jpg"
-                alt="Triveni Sangam in Prayagraj, Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Prayagraj
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Triveni_sangam_prayagraj.jpg" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Triveni_sangam_prayagraj.jpg" alt="Triveni Sangam in Prayagraj, Uttar Pradesh" loading="lazy">
+            <span>Prayagraj</span>
         </button>
 
-
-        <!-- SARNATH -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/SARNATH_DHAMEK_STUPA.jpg"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/SARNATH_DHAMEK_STUPA.jpg"
-                alt="Dhamek Stupa in Sarnath, Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Sarnath
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/SARNATH_DHAMEK_STUPA.jpg" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/SARNATH_DHAMEK_STUPA.jpg" alt="Dhamek Stupa in Sarnath, Uttar Pradesh" loading="lazy">
+            <span>Sarnath</span>
         </button>
 
-
-        <!-- JHANSI -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Jhansi_Fort.jpg"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Jhansi_Fort.jpg"
-                alt="Jhansi Fort in Jhansi, Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Jhansi
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Jhansi_Fort.jpg" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Jhansi_Fort.jpg" alt="Jhansi Fort in Jhansi, Uttar Pradesh" loading="lazy">
+            <span>Jhansi</span>
         </button>
 
-
-        <!-- DUDHWA -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Dudhwa_National_Park.jpg"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Dudhwa_National_Park.jpg"
-                alt="Dudhwa National Park in Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Dudhwa
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Dudhwa_National_Park.jpg" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Dudhwa_National_Park.jpg" alt="Dudhwa National Park in Uttar Pradesh" loading="lazy">
+            <span>Dudhwa</span>
         </button>
 
-
-        <!-- FATEHPUR SIKRI -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Buland_Darwaza_%28Fatehpur_Sikri%29.jpg"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Buland_Darwaza_%28Fatehpur_Sikri%29.jpg"
-                alt="Buland Darwaza at Fatehpur Sikri, Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Fatehpur Sikri
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Buland_Darwaza_%28Fatehpur_Sikri%29.jpg" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Buland_Darwaza_%28Fatehpur_Sikri%29.jpg" alt="Buland Darwaza at Fatehpur Sikri, Uttar Pradesh" loading="lazy">
+            <span>Fatehpur Sikri</span>
         </button>
 
-
-        <!-- VINDHYACHAL -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Maa_Vindhyavasini_temple%2C_Vindhyachal.jpg"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Maa_Vindhyavasini_temple%2C_Vindhyachal.jpg"
-                alt="Maa Vindhyavasini Temple in Vindhyachal, Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Vindhyachal
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Maa_Vindhyavasini_temple%2C_Vindhyachal.jpg" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Maa_Vindhyavasini_temple%2C_Vindhyachal.jpg" alt="Maa Vindhyavasini Temple in Vindhyachal, Uttar Pradesh" loading="lazy">
+            <span>Vindhyachal</span>
         </button>
 
-
-        <!-- KANPUR -->
-
-        <button
-            class="gallery-item reveal"
-            data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Ganga_Barrage_Kanpur.jpg"
-            type="button"
-        >
-
-            <img
-                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Ganga_Barrage_Kanpur.jpg"
-                alt="Ganga Barrage in Kanpur, Uttar Pradesh"
-                loading="lazy"
-            >
-
-            <span>
-                Kanpur
-            </span>
-
+        <button class="gallery-item reveal" data-full="https://commons.wikimedia.org/wiki/Special:Redirect/file/Ganga_Barrage_Kanpur.jpg" type="button">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Ganga_Barrage_Kanpur.jpg" alt="Ganga Barrage in Kanpur, Uttar Pradesh" loading="lazy">
+            <span>Kanpur</span>
         </button>
 
     </div>
 
-
-    <p
-        class="muted"
-        style="margin-top:18px;font-size:13px;"
-    >
-
-        Gallery images are sourced from Wikimedia Commons.
-        Check the original file pages for attribution and license details.
-
+    <p class="muted gallery-credit-note">
+        Gallery images are sourced from Wikimedia Commons. Check the original file page for attribution and license details.
     </p>
+
+</section>
+
+
+<!-- =====================================================
+                    UP FOOD EXPLORER
+===================================================== -->
+
+<section
+    class="section food-section"
+    id="food"
+>
+
+    <div class="section-head reveal">
+
+        <div>
+
+            <p class="eyebrow">TASTE OF UP</p>
+
+            <h2>
+                Explore UP
+                <span>Food</span>
+            </h2>
+
+        </div>
+
+        <p class="muted">
+            Discover popular flavours associated with major UP destinations.
+        </p>
+
+    </div>
+
+
+    <div class="food-grid">
+
+        <article class="food-card reveal">
+            <div class="food-emoji">🍢</div>
+            <span class="food-city">Lucknow</span>
+            <h3>Tunday Kebab</h3>
+            <p>One of Lucknow's most recognised kebab styles, associated with the city's Awadhi food culture.</p>
+            <span class="food-type">Awadhi • Savoury</span>
+        </article>
+
+        <article class="food-card reveal">
+            <div class="food-emoji">🥘</div>
+            <span class="food-city">Varanasi</span>
+            <h3>Kachori-Sabzi</h3>
+            <p>A popular breakfast combination often enjoyed with spicy sabzi and local accompaniments.</p>
+            <span class="food-type">Street Food • Breakfast</span>
+        </article>
+
+        <article class="food-card reveal">
+            <div class="food-emoji">🍬</div>
+            <span class="food-city">Agra</span>
+            <h3>Agra Petha</h3>
+            <p>A famous translucent sweet strongly associated with Agra and commonly sold across the city.</p>
+            <span class="food-type">Sweet • Local Specialty</span>
+        </article>
+
+        <article class="food-card reveal">
+            <div class="food-emoji">🍥</div>
+            <span class="food-city">Mathura - Vrindavan</span>
+            <h3>Mathura Peda</h3>
+            <p>A traditional milk-based sweet associated with Mathura's pilgrimage and food culture.</p>
+            <span class="food-type">Sweet • Pilgrimage Food</span>
+        </article>
+
+        <article class="food-card reveal">
+            <div class="food-emoji">🍲</div>
+            <span class="food-city">Lucknow</span>
+            <h3>Awadhi Biryani</h3>
+            <p>A fragrant rice preparation linked with the culinary traditions of Lucknow and the Awadh region.</p>
+            <span class="food-type">Awadhi • Main Course</span>
+        </article>
+
+        <article class="food-card reveal">
+            <div class="food-emoji">🥤</div>
+            <span class="food-city">Varanasi</span>
+            <h3>Banarasi Lassi</h3>
+            <p>A creamy yogurt drink commonly enjoyed as a refreshing part of the city's food scene.</p>
+            <span class="food-type">Drink • Refreshing</span>
+        </article>
+
+        <article class="food-card reveal">
+            <div class="food-emoji">🍭</div>
+            <span class="food-city">Kanpur</span>
+            <h3>Thaggu Ke Laddu</h3>
+            <p>A well-known Kanpur sweet with a strong local identity and long-running popularity.</p>
+            <span class="food-type">Sweet • Kanpur</span>
+        </article>
+
+        <article class="food-card reveal">
+            <div class="food-emoji">🫓</div>
+            <span class="food-city">Prayagraj</span>
+            <h3>Kachori-Sabzi</h3>
+            <p>A familiar North Indian street-food choice enjoyed in local breakfast and snack spots.</p>
+            <span class="food-type">Street Food • Breakfast</span>
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+                 FESTIVALS & EXPERIENCES
+===================================================== -->
+
+<section
+    class="section festival-section"
+    id="festivals"
+>
+
+    <div class="section-head reveal">
+
+        <div>
+
+            <p class="eyebrow">CELEBRATIONS OF UP</p>
+
+            <h2>
+                Festivals &
+                <span>Experiences</span>
+            </h2>
+
+        </div>
+
+        <p class="muted">
+            Festival dates vary by year; check official local sources before travelling.
+        </p>
+
+    </div>
+
+
+    <div class="festival-grid">
+
+        <article class="festival-card reveal">
+            <div class="festival-icon">🪔</div>
+            <span class="festival-place">Ayodhya</span>
+            <h3>Diwali Celebrations</h3>
+            <p>Ayodhya is known for large-scale Diwali celebrations and illuminated ghats and public spaces.</p>
+            <span class="festival-tag">Festival • Seasonal</span>
+        </article>
+
+        <article class="festival-card reveal">
+            <div class="festival-icon">✨</div>
+            <span class="festival-place">Varanasi</span>
+            <h3>Dev Deepawali</h3>
+            <p>The ghats are illuminated with large numbers of lamps, creating a distinctive evening spectacle.</p>
+            <span class="festival-tag">Festival • Ghats</span>
+        </article>
+
+        <article class="festival-card reveal">
+            <div class="festival-icon">🎨</div>
+            <span class="festival-place">Mathura - Vrindavan</span>
+            <h3>Holi</h3>
+            <p>The Braj region is closely associated with colourful Holi traditions and devotional celebrations.</p>
+            <span class="festival-tag">Festival • Braj</span>
+        </article>
+
+        <article class="festival-card reveal">
+            <div class="festival-icon">🏛️</div>
+            <span class="festival-place">Agra</span>
+            <h3>Taj Mahotsav</h3>
+            <p>A cultural festival featuring crafts, performances, food and traditional arts associated with the region.</p>
+            <span class="festival-tag">Culture • Agra</span>
+        </article>
+
+        <article class="festival-card reveal">
+            <div class="festival-icon">🚩</div>
+            <span class="festival-place">Ayodhya</span>
+            <h3>Ram Navami</h3>
+            <p>A major religious occasion marked by temple activities, devotional gatherings and local celebrations.</p>
+            <span class="festival-tag">Spiritual • Seasonal</span>
+        </article>
+
+        <article class="festival-card reveal">
+            <div class="festival-icon">🕉️</div>
+            <span class="festival-place">Prayagraj</span>
+            <h3>Magh Mela & Kumbh Events</h3>
+            <p>The Sangam area hosts important bathing, pilgrimage and cultural gatherings, including periodic Kumbh events.</p>
+            <span class="festival-tag">Pilgrimage • Riverside</span>
+        </article>
+
+    </div>
 
 </section>
 
@@ -1697,10 +1840,11 @@
     </div>
 
 
-    <!-- CITY FILTERS -->
+    <!-- =================================================
+                         CITY FILTERS
+    ================================================== -->
 
     <div class="stay-filters reveal">
-
 
         <button
             class="stay-filter active"
@@ -1794,7 +1938,9 @@
     </div>
 
 
-    <!-- REAL STAY GRID -->
+    <!-- =================================================
+                         REAL STAY GRID
+    ================================================== -->
 
     <div
         id="stayGrid"
@@ -1802,14 +1948,15 @@
     ></div>
 
 
-    <!-- INFORMATION NOTE -->
+    <!-- =================================================
+                         INFORMATION NOTE
+    ================================================== -->
 
     <div class="stay-note reveal">
 
         <span>
             ℹ️
         </span>
-
 
         <p>
 
@@ -1836,7 +1983,7 @@
         <div>
 
             <p class="eyebrow">
-                VISITOR REVIEWS
+                visitor reviews
             </p>
 
 
@@ -1875,7 +2022,7 @@
 
 
             <b>
-                — visitor review
+                — visitor reviewsr
             </b>
 
         </article>
@@ -1898,7 +2045,7 @@
 
 
             <b>
-                — visitor review
+                — visitor reviews
             </b>
 
         </article>
@@ -1913,15 +2060,13 @@
 
             <p>
 
-                “A well-designed platform to explore
-                the rich culture, heritage and tourist
-                attractions of Uttar Pradesh.”
+                "A well-designed platform to explore the rich culture, heritage, and tourist attractions of Uttar Pradesh."
 
             </p>
 
 
             <b>
-                — visitor review
+               - visitor reviews
             </b>
 
         </article>
@@ -1963,10 +2108,7 @@
 
             <p class="muted">
 
-                We'd love to hear from you!
-                Send us your questions, feedback
-                or travel inquiries, and our team
-                will get back to you as soon as possible.
+                we'd love to hear from you! send me your questions. feedback , or travel inquries, and our team will grt back to you as soon as possible.
 
             </p>
 
@@ -2075,7 +2217,7 @@
         <p>
 
             Explore Uttar Pradesh.
-            One smart tourism platform. ❤️
+            One smart tourism platform.❤️
 
         </p>
 
@@ -2118,7 +2260,7 @@
 
     <small>
 
-        ❤️ 2026 UP Yatra • Welcome to Uttar Pradesh
+        ❤️2026 UP Yatra • welcome to uttarpradesh 
 
     </small>
 
@@ -2455,7 +2597,7 @@
                     Try asking:
 
 
-                    <br><br>
+                    <br>
 
 
                     <b>

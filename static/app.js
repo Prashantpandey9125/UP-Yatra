@@ -1,8 +1,7 @@
 /* =========================================================
    UP YATRA - MAIN JAVASCRIPT
-   =========================================================
    Features:
-   - Destination Loading
+   - Destination loading
    - Advanced Search
    - Category Filters
    - Interactive Map
@@ -16,8 +15,6 @@
    - Progress Bar
    - Back To Top
    - Live Weather
-   - Real UPSTDC Stays
-   - WhatsApp Contact for Stays
 ========================================================= */
 
 
@@ -37,6 +34,9 @@ let galleryItems = [];
 let galleryIndex = 0;
 
 let weatherData = null;
+
+let stays = [];
+let currentStayCity = "All";
 
 
 /* =========================================================
@@ -62,10 +62,13 @@ async function api(url, options = {}) {
             }
         });
 
+
         const contentType =
             response.headers.get("content-type") || "";
 
+
         let data = {};
+
 
         if (contentType.includes("application/json")) {
 
@@ -81,6 +84,7 @@ async function api(url, options = {}) {
 
         }
 
+
         if (!response.ok) {
 
             throw new Error(
@@ -90,6 +94,7 @@ async function api(url, options = {}) {
             );
 
         }
+
 
         return data;
 
@@ -108,48 +113,48 @@ async function api(url, options = {}) {
    PAGE LOAD
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    async function () {
+document.addEventListener("DOMContentLoaded", async function () {
 
-        console.log(
-            "UP Yatra JavaScript loaded successfully"
+    console.log(
+        "UP Yatra JavaScript loaded successfully"
+    );
+
+
+    try {
+
+        await loadDestinations();
+
+        await loadFavorites();
+
+    } catch (error) {
+
+        console.error(
+            "Initial loading error:",
+            error
         );
 
-        try {
-
-            await loadDestinations();
-
-            await loadFavorites();
-
-        } catch (error) {
-
-            console.error(
-                "Initial loading error:",
-                error
-            );
-
-            showToast(
-                "Website data load nahi ho pa raha."
-            );
-
-        }
-
-        setupFilters();
-        setupSearch();
-        setupUI();
-        setupGallery();
-        setupModal();
-        setupPlanner();
-        setupContactForm();
-        setupWeather();
-        setupStay();
-        setupReveal();
-
-        updateProgress();
+        showToast(
+            "Website data load nahi ho pa raha."
+        );
 
     }
-);
+
+
+    /* Setup UI */
+
+    setupFilters();
+
+    setupSearch();
+
+    setupUI();
+
+    setupGallery();
+
+    setupReveal();
+
+    updateProgress();
+
+});
 
 
 /* =========================================================
@@ -163,31 +168,37 @@ async function loadDestinations() {
         const data =
             await api("/api/destinations");
 
-        if (Array.isArray(data)) {
 
-            destinations = data;
-
-        } else {
-
-            destinations = [];
+        if (!Array.isArray(data)) {
 
             console.error(
                 "Invalid destinations response:",
                 data
             );
 
+            destinations = [];
+
+        } else {
+
+            destinations = data;
+
         }
+
 
         console.log(
             "Destinations loaded:",
             destinations.length
         );
 
+
         renderDestinations();
 
 
+        /* Planner destination list */
+
         const planDestination =
             $("planDestination");
+
 
         if (planDestination) {
 
@@ -195,12 +206,8 @@ async function loadDestinations() {
                 destinations.map(destination => {
 
                     return `
-                        <option value="${escapeHtml(
-                            destination.slug
-                        )}">
-                            ${escapeHtml(
-                                destination.name
-                            )}
+                        <option value="${escapeHtml(destination.slug)}">
+                            ${escapeHtml(destination.name)}
                         </option>
                     `;
 
@@ -233,6 +240,7 @@ async function loadFavorites() {
         const data =
             await api("/api/favorites");
 
+
         if (Array.isArray(data)) {
 
             favorites =
@@ -244,6 +252,7 @@ async function loadFavorites() {
                 new Set();
 
         }
+
 
         updateFavoriteUI();
 
@@ -265,7 +274,7 @@ async function loadFavorites() {
 
 
 /* =========================================================
-   SEARCHABLE DESTINATION TEXT
+   DESTINATION SEARCH TEXT
 ========================================================= */
 
 function getSearchableText(destination) {
@@ -303,6 +312,9 @@ function getFilteredDestinations() {
     let filtered =
         [...destinations];
 
+
+    /* CATEGORY FILTER */
+
     if (
         currentFilter &&
         currentFilter !== "All"
@@ -322,6 +334,9 @@ function getFilteredDestinations() {
 
     }
 
+
+    /* SEARCH FILTER */
+
     if (
         currentSearch &&
         currentSearch.trim() !== ""
@@ -331,6 +346,7 @@ function getFilteredDestinations() {
             currentSearch
                 .trim()
                 .toLowerCase();
+
 
         filtered =
             filtered.filter(destination => {
@@ -342,6 +358,7 @@ function getFilteredDestinations() {
             });
 
     }
+
 
     return filtered;
 
@@ -357,6 +374,7 @@ function renderDestinations() {
     const grid =
         $("destinationGrid");
 
+
     if (!grid) {
 
         console.error(
@@ -367,8 +385,12 @@ function renderDestinations() {
 
     }
 
+
     const filtered =
         getFilteredDestinations();
+
+
+    /* NO RESULTS */
 
     if (!filtered.length) {
 
@@ -377,22 +399,26 @@ function renderDestinations() {
             <div
                 class="muted"
                 style="
-                    grid-column:1/-1;
-                    padding:50px 20px;
-                    text-align:center;
+                    grid-column: 1 / -1;
+                    padding: 50px 20px;
+                    text-align: center;
                 "
             >
 
                 <div
                     style="
-                        font-size:42px;
-                        margin-bottom:12px;
+                        font-size: 42px;
+                        margin-bottom: 12px;
                     "
                 >
                     🔍
                 </div>
 
-                <h3>
+                <h3
+                    style="
+                        margin-bottom: 8px;
+                    "
+                >
                     No UP destination found
                 </h3>
 
@@ -417,6 +443,9 @@ function renderDestinations() {
 
     }
 
+
+    /* DESTINATION CARDS */
+
     grid.innerHTML =
         filtered.map(destination => {
 
@@ -425,33 +454,40 @@ function renderDestinations() {
                     destination.slug || ""
                 );
 
+
             const name =
                 String(
                     destination.name || ""
                 );
+
 
             const image =
                 String(
                     destination.image || ""
                 );
 
+
             const category =
                 String(
                     destination.category || ""
                 );
+
 
             const location =
                 String(
                     destination.location || ""
                 );
 
+
             const short =
                 String(
                     destination.short || ""
                 );
 
+
             const isFavorite =
                 favorites.has(slug);
+
 
             return `
 
@@ -472,6 +508,7 @@ function renderDestinations() {
                             ${escapeHtml(category)}
                         </span>
 
+
                         <button
                             type="button"
                             class="heart ${
@@ -482,28 +519,37 @@ function renderDestinations() {
                             onclick="toggleFavorite('${escapeJs(slug)}')"
                             aria-label="Save ${escapeHtml(name)}"
                         >
+
                             ${
                                 isFavorite
                                     ? "♥"
                                     : "♡"
                             }
+
                         </button>
 
                     </div>
 
+
                     <div class="card-body">
 
                         <span class="muted">
-                            📍 ${escapeHtml(location)}
+
+                            📍
+                            ${escapeHtml(location)}
+
                         </span>
+
 
                         <h3>
                             ${escapeHtml(name)}
                         </h3>
 
+
                         <p>
                             ${escapeHtml(short)}
                         </p>
+
 
                         <div class="card-actions">
 
@@ -514,6 +560,7 @@ function renderDestinations() {
                             >
                                 Explore
                             </button>
+
 
                             <button
                                 type="button"
@@ -545,6 +592,7 @@ function setupFilters() {
     const filterButtons =
         document.querySelectorAll(".filter");
 
+
     filterButtons.forEach(button => {
 
         button.addEventListener(
@@ -556,16 +604,21 @@ function setupFilters() {
                         item.classList.remove("active")
                 );
 
+
                 this.classList.add("active");
+
 
                 currentFilter =
                     this.dataset.filter ||
                     "All";
 
+
                 renderDestinations();
+
 
                 const section =
                     $("destinations");
+
 
                 if (section) {
 
@@ -593,8 +646,10 @@ function setupSearch() {
     const searchInput =
         $("heroSearch");
 
+
     const searchButton =
         $("searchBtn");
+
 
     if (!searchInput) {
 
@@ -605,6 +660,14 @@ function setupSearch() {
         return;
 
     }
+
+
+    console.log(
+        "Search system initialized"
+    );
+
+
+    /* SEARCH BUTTON */
 
     if (searchButton) {
 
@@ -623,6 +686,9 @@ function setupSearch() {
 
     }
 
+
+    /* ENTER KEY */
+
     searchInput.addEventListener(
         "keydown",
         function (event) {
@@ -640,12 +706,16 @@ function setupSearch() {
         }
     );
 
+
+    /* LIVE SEARCH */
+
     searchInput.addEventListener(
         "input",
         function () {
 
             const value =
                 this.value.trim();
+
 
             if (value === "") {
 
@@ -656,6 +726,7 @@ function setupSearch() {
                 return;
 
             }
+
 
             if (value.length >= 2) {
 
@@ -679,7 +750,9 @@ function setupSearch() {
 function performSearch(value) {
 
     const query =
-        String(value || "").trim();
+        String(value || "")
+            .trim();
+
 
     if (!query) {
 
@@ -697,23 +770,32 @@ function performSearch(value) {
 
     }
 
+
     currentSearch =
         query;
 
+
     renderDestinations();
+
 
     const searchText =
         query.toLowerCase();
 
+
     const matches =
         destinations.filter(
-            destination =>
-                getSearchableText(
+            destination => {
+
+                return getSearchableText(
                     destination
-                ).includes(searchText)
+                ).includes(searchText);
+
+            }
         );
 
+
     scrollToDestinations();
+
 
     if (matches.length > 0) {
 
@@ -745,7 +827,9 @@ function scrollToDestinations() {
     const section =
         $("destinations");
 
+
     if (!section) return;
+
 
     section.scrollIntoView({
         behavior: "smooth",
@@ -765,14 +849,21 @@ function () {
     const input =
         $("heroSearch");
 
+
     if (input) {
 
         input.value = "";
 
     }
 
-    currentSearch = "";
-    currentFilter = "All";
+
+    currentSearch =
+        "";
+
+
+    currentFilter =
+        "All";
+
 
     document
         .querySelectorAll(".filter")
@@ -784,10 +875,12 @@ function () {
 
         });
 
+
     const allButton =
         document.querySelector(
             '.filter[data-filter="All"]'
         );
+
 
     if (allButton) {
 
@@ -797,14 +890,16 @@ function () {
 
     }
 
+
     renderDestinations();
+
     scrollToDestinations();
 
 };
 
 
 /* =========================================================
-   OPEN DESTINATION
+   OPEN DESTINATION MODAL
 ========================================================= */
 
 window.openDestination =
@@ -817,6 +912,7 @@ function (slug) {
                 String(slug)
         );
 
+
     if (!destination) {
 
         showToast(
@@ -827,16 +923,23 @@ function (slug) {
 
     }
 
+
     currentModalSlug =
         destination.slug;
+
 
     const modal =
         $("destinationModal");
 
+
     if (!modal) return;
+
+
+    /* IMAGE */
 
     const modalImage =
         $("modalImage");
+
 
     if (modalImage) {
 
@@ -848,12 +951,18 @@ function (slug) {
 
     }
 
+
+    /* CATEGORY */
+
     if ($("modalCategory")) {
 
         $("modalCategory").textContent =
             destination.category || "";
 
     }
+
+
+    /* TITLE */
 
     if ($("modalTitle")) {
 
@@ -862,12 +971,18 @@ function (slug) {
 
     }
 
+
+    /* DESCRIPTION */
+
     if ($("modalDescription")) {
 
         $("modalDescription").textContent =
             destination.description || "";
 
     }
+
+
+    /* LOCATION */
 
     if ($("modalLocation")) {
 
@@ -876,12 +991,18 @@ function (slug) {
 
     }
 
+
+    /* BEST TIME */
+
     if ($("modalTime")) {
 
         $("modalTime").textContent =
             destination.best_time || "";
 
     }
+
+
+    /* FOOD */
 
     if ($("modalFood")) {
 
@@ -890,12 +1011,18 @@ function (slug) {
 
     }
 
+
+    /* PLACES */
+
     if ($("modalPlaces")) {
 
         $("modalPlaces").textContent =
             destination.places || "";
 
     }
+
+
+    /* GOOGLE MAPS */
 
     if ($("modalMap")) {
 
@@ -908,6 +1035,9 @@ function (slug) {
 
     }
 
+
+    /* FAVOURITE BUTTON */
+
     if ($("modalFav")) {
 
         $("modalFav").textContent =
@@ -917,7 +1047,11 @@ function (slug) {
 
     }
 
-    modal.classList.remove("hidden");
+
+    modal.classList.remove(
+        "hidden"
+    );
+
 
     document.body.style.overflow =
         "hidden";
@@ -934,6 +1068,7 @@ function closeDestinationModal() {
     const modal =
         $("destinationModal");
 
+
     if (modal) {
 
         modal.classList.add(
@@ -942,13 +1077,15 @@ function closeDestinationModal() {
 
     }
 
-    document.body.style.overflow = "";
+
+    document.body.style.overflow =
+        "";
 
 }
 
 
 /* =========================================================
-   MODAL SETUP
+   MODAL EVENTS
 ========================================================= */
 
 function setupModal() {
@@ -956,11 +1093,14 @@ function setupModal() {
     const modal =
         $("destinationModal");
 
+
     const closeButton =
         $("modalClose");
 
+
     const favouriteButton =
         $("modalFav");
+
 
     if (closeButton) {
 
@@ -971,13 +1111,17 @@ function setupModal() {
 
     }
 
+
     if (modal) {
 
         modal.addEventListener(
             "click",
             function (event) {
 
-                if (event.target === modal) {
+                if (
+                    event.target ===
+                    modal
+                ) {
 
                     closeDestinationModal();
 
@@ -987,6 +1131,7 @@ function setupModal() {
         );
 
     }
+
 
     if (favouriteButton) {
 
@@ -1020,8 +1165,10 @@ function (slug) {
     const planner =
         $("planner");
 
+
     const select =
         $("planDestination");
+
 
     if (!select) {
 
@@ -1033,7 +1180,10 @@ function (slug) {
 
     }
 
-    select.value = slug;
+
+    select.value =
+        slug;
+
 
     if (planner) {
 
@@ -1065,7 +1215,11 @@ async function (slug) {
                 }
             );
 
-            favorites.delete(slug);
+
+            favorites.delete(
+                slug
+            );
+
 
             showToast(
                 "Removed from favourites"
@@ -1077,13 +1231,19 @@ async function (slug) {
                 "/api/favorites",
                 {
                     method: "POST",
+
                     body: JSON.stringify({
                         slug: slug
                     })
+
                 }
             );
 
-            favorites.add(slug);
+
+            favorites.add(
+                slug
+            );
+
 
             showToast(
                 "Added to favourites ♥"
@@ -1091,13 +1251,20 @@ async function (slug) {
 
         }
 
+
         renderDestinations();
+
         updateFavoriteUI();
 
-        if (currentModalSlug === slug) {
+
+        if (
+            currentModalSlug ===
+            slug
+        ) {
 
             const modalFav =
                 $("modalFav");
+
 
             if (modalFav) {
 
@@ -1116,6 +1283,7 @@ async function (slug) {
             "Favorite error:",
             error
         );
+
 
         showToast(
             error.message ||
@@ -1136,6 +1304,7 @@ function updateFavoriteUI() {
     const count =
         $("favCount");
 
+
     if (count) {
 
         count.textContent =
@@ -1147,7 +1316,7 @@ function updateFavoriteUI() {
 
 
 /* =========================================================
-   SHOW FAVOURITES
+   FAVOURITE NAVIGATION
 ========================================================= */
 
 function showFavorites() {
@@ -1160,6 +1329,7 @@ function showFavorites() {
                 )
         );
 
+
     if (!saved.length) {
 
         showToast(
@@ -1170,12 +1340,16 @@ function showFavorites() {
 
     }
 
+
     currentSearch = "";
+
 
     const grid =
         $("destinationGrid");
 
+
     if (!grid) return;
+
 
     grid.innerHTML =
         saved.map(destination => {
@@ -1189,62 +1363,53 @@ function showFavorites() {
                     <div class="card-image">
 
                         <img
-                            src="${escapeHtml(
-                                destination.image || ""
-                            )}"
-                            alt="${escapeHtml(
-                                destination.name || ""
-                            )}"
+                            src="${escapeHtml(destination.image || "")}"
+                            alt="${escapeHtml(destination.name || "")}"
                             loading="lazy"
                         >
 
                         <span class="tag card-tag">
-                            ${escapeHtml(
-                                destination.category || ""
-                            )}
+                            ${escapeHtml(destination.category || "")}
                         </span>
+
 
                         <button
                             type="button"
                             class="heart saved"
-                            onclick="toggleFavorite('${escapeJs(
-                                destination.slug
-                            )}')"
+                            onclick="toggleFavorite('${escapeJs(destination.slug)}')"
                         >
                             ♥
                         </button>
 
                     </div>
 
+
                     <div class="card-body">
 
                         <span class="muted">
+
                             📍
-                            ${escapeHtml(
-                                destination.location || ""
-                            )}
+                            ${escapeHtml(destination.location || "")}
+
                         </span>
 
+
                         <h3>
-                            ${escapeHtml(
-                                destination.name || ""
-                            )}
+                            ${escapeHtml(destination.name || "")}
                         </h3>
 
+
                         <p>
-                            ${escapeHtml(
-                                destination.short || ""
-                            )}
+                            ${escapeHtml(destination.short || "")}
                         </p>
+
 
                         <div class="card-actions">
 
                             <button
                                 type="button"
                                 class="small-btn main"
-                                onclick="openDestination('${escapeJs(
-                                    destination.slug
-                                )}')"
+                                onclick="openDestination('${escapeJs(destination.slug)}')"
                             >
                                 Explore
                             </button>
@@ -1252,9 +1417,7 @@ function showFavorites() {
                             <button
                                 type="button"
                                 class="small-btn"
-                                onclick="chooseForPlanner('${escapeJs(
-                                    destination.slug
-                                )}')"
+                                onclick="chooseForPlanner('${escapeJs(destination.slug)}')"
                             >
                                 Plan
                             </button>
@@ -1269,7 +1432,9 @@ function showFavorites() {
 
         }).join("");
 
+
     scrollToDestinations();
+
 
     showToast(
         `${saved.length} favourite destination${
@@ -1291,7 +1456,9 @@ function setupPlanner() {
     const plannerForm =
         $("plannerForm");
 
+
     if (!plannerForm) return;
+
 
     plannerForm.addEventListener(
         "submit",
@@ -1299,12 +1466,18 @@ function setupPlanner() {
 
             event.preventDefault();
 
+
             const result =
                 $("plannerResult");
 
+
             if (!result) return;
 
-            result.classList.remove("hidden");
+
+            result.classList.remove(
+                "hidden"
+            );
+
 
             result.innerHTML = `
 
@@ -1314,6 +1487,7 @@ function setupPlanner() {
 
             `;
 
+
             try {
 
                 const data =
@@ -1321,32 +1495,37 @@ function setupPlanner() {
                         "/api/plan",
                         {
                             method: "POST",
-                            body: JSON.stringify({
 
-                                destination:
-                                    $("planDestination")
-                                        ?.value,
+                            body:
+                                JSON.stringify({
 
-                                days:
-                                    $("planDays")
-                                        ?.value,
+                                    destination:
+                                        $("planDestination")
+                                            ?.value,
 
-                                budget:
-                                    $("planBudget")
-                                        ?.value,
+                                    days:
+                                        $("planDays")
+                                            ?.value,
 
-                                travel_type:
-                                    $("planType")
-                                        ?.value
+                                    budget:
+                                        $("planBudget")
+                                            ?.value,
 
-                            })
+                                    travel_type:
+                                        $("planType")
+                                            ?.value
+
+                                })
+
                         }
                     );
+
 
                 const days =
                     Array.isArray(data.days)
                         ? data.days
                         : [];
+
 
                 result.innerHTML = `
 
@@ -1354,17 +1533,20 @@ function setupPlanner() {
                         YOUR PERSONALIZED PLAN
                     </p>
 
+
                     <h3>
                         ${escapeHtml(
                             data.title || ""
                         )}
                     </h3>
 
+
                     <p class="muted">
                         ${escapeHtml(
                             data.description || ""
                         )}
                     </p>
+
 
                     <div class="plan-days">
 
@@ -1380,37 +1562,50 @@ function setupPlanner() {
                                         )}
                                     </b>
 
+
                                     <h4>
                                         ${escapeHtml(
                                             day.title || ""
                                         )}
                                     </h4>
 
+
                                     <p>
+
                                         <strong>
                                             Morning:
                                         </strong>
+
                                         ${escapeHtml(
                                             day.morning || ""
                                         )}
+
                                     </p>
 
+
                                     <p>
+
                                         <strong>
                                             Afternoon:
                                         </strong>
+
                                         ${escapeHtml(
                                             day.afternoon || ""
                                         )}
+
                                     </p>
 
+
                                     <p>
+
                                         <strong>
                                             Evening:
                                         </strong>
+
                                         ${escapeHtml(
                                             day.evening || ""
                                         )}
+
                                     </p>
 
                                 </div>
@@ -1422,14 +1617,17 @@ function setupPlanner() {
 
                 `;
 
+
                 showToast(
                     "Trip plan generated and saved"
                 );
+
 
                 result.scrollIntoView({
                     behavior: "smooth",
                     block: "center"
                 });
+
 
             } catch (error) {
 
@@ -1438,14 +1636,18 @@ function setupPlanner() {
                     error
                 );
 
+
                 result.innerHTML = `
 
                     <p>
+
                         ⚠️
+
                         ${escapeHtml(
                             error.message ||
                             "Unable to create trip plan"
                         )}
+
                     </p>
 
                 `;
@@ -1467,13 +1669,16 @@ function setupContactForm() {
     const form =
         $("contactForm");
 
+
     if (!form) return;
+
 
     form.addEventListener(
         "submit",
         async function (event) {
 
             event.preventDefault();
+
 
             try {
 
@@ -1482,34 +1687,40 @@ function setupContactForm() {
                         "/api/contact",
                         {
                             method: "POST",
-                            body: JSON.stringify({
 
-                                name:
-                                    $("contactName")
-                                        ?.value || "",
+                            body:
+                                JSON.stringify({
 
-                                email:
-                                    $("contactEmail")
-                                        ?.value || "",
+                                    name:
+                                        $("contactName")
+                                            ?.value || "",
 
-                                subject:
-                                    $("contactSubject")
-                                        ?.value || "",
+                                    email:
+                                        $("contactEmail")
+                                            ?.value || "",
 
-                                message:
-                                    $("contactMessage")
-                                        ?.value || ""
+                                    subject:
+                                        $("contactSubject")
+                                            ?.value || "",
 
-                            })
+                                    message:
+                                        $("contactMessage")
+                                            ?.value || ""
+
+                                })
+
                         }
                     );
+
 
                 showToast(
                     data.message ||
                     "Message sent successfully"
                 );
 
+
                 form.reset();
+
 
             } catch (error) {
 
@@ -1517,6 +1728,7 @@ function setupContactForm() {
                     "Contact form error:",
                     error
                 );
+
 
                 showToast(
                     error.message ||
@@ -1542,6 +1754,7 @@ function setupMap() {
             ".map-pin"
         );
 
+
     pins.forEach(pin => {
 
         pin.addEventListener(
@@ -1551,9 +1764,13 @@ function setupMap() {
                 const slug =
                     this.dataset.slug;
 
+
                 if (!slug) return;
 
-                openDestination(slug);
+
+                openDestination(
+                    slug
+                );
 
             }
         );
@@ -1569,13 +1786,20 @@ function setupMap() {
 
 function setupUI() {
 
+    /* MOBILE MENU */
+
     const menuButton =
         $("menuBtn");
+
 
     const navLinks =
         $("navLinks");
 
-    if (menuButton && navLinks) {
+
+    if (
+        menuButton &&
+        navLinks
+    ) {
 
         menuButton.addEventListener(
             "click",
@@ -1587,6 +1811,7 @@ function setupUI() {
 
             }
         );
+
 
         navLinks
             .querySelectorAll("a")
@@ -1613,6 +1838,7 @@ function setupUI() {
     const themeButton =
         $("themeBtn");
 
+
     if (themeButton) {
 
         themeButton.addEventListener(
@@ -1622,6 +1848,7 @@ function setupUI() {
                 document.body.classList.toggle(
                     "dark"
                 );
+
 
                 localStorage.setItem(
                     "upTheme",
@@ -1637,9 +1864,11 @@ function setupUI() {
 
     }
 
+
     if (
-        localStorage.getItem("upTheme") ===
-        "dark"
+        localStorage.getItem(
+            "upTheme"
+        ) === "dark"
     ) {
 
         document.body.classList.add(
@@ -1649,10 +1878,11 @@ function setupUI() {
     }
 
 
-    /* FAVOURITES */
+    /* FAVOURITE BUTTON */
 
     const favButton =
         $("favNavBtn");
+
 
     if (favButton) {
 
@@ -1677,8 +1907,10 @@ function setupUI() {
 
             updateProgress();
 
+
             const backTop =
                 $("backTop");
+
 
             if (backTop) {
 
@@ -1698,6 +1930,7 @@ function setupUI() {
     const backTop =
         $("backTop");
 
+
     if (backTop) {
 
         backTop.addEventListener(
@@ -1710,7 +1943,6 @@ function setupUI() {
                 });
 
             }
-
         );
 
     }
@@ -1731,6 +1963,7 @@ function setupGallery() {
             )
         );
 
+
     galleryItems.forEach(
         function (item, index) {
 
@@ -1738,7 +1971,9 @@ function setupGallery() {
                 "click",
                 function () {
 
-                    openLightbox(index);
+                    openLightbox(
+                        index
+                    );
 
                 }
             );
@@ -1746,17 +1981,22 @@ function setupGallery() {
         }
     );
 
+
     const closeButton =
         $("lightClose");
+
 
     const previousButton =
         $("lightPrev");
 
+
     const nextButton =
         $("lightNext");
 
+
     const lightbox =
         $("lightbox");
+
 
     if (closeButton) {
 
@@ -1766,6 +2006,7 @@ function setupGallery() {
         );
 
     }
+
 
     if (previousButton) {
 
@@ -1780,6 +2021,7 @@ function setupGallery() {
 
     }
 
+
     if (nextButton) {
 
         nextButton.addEventListener(
@@ -1792,6 +2034,7 @@ function setupGallery() {
         );
 
     }
+
 
     if (lightbox) {
 
@@ -1813,6 +2056,7 @@ function setupGallery() {
 
     }
 
+
     document.addEventListener(
         "keydown",
         function (event) {
@@ -1820,28 +2064,43 @@ function setupGallery() {
             const box =
                 $("lightbox");
 
+
             if (
                 !box ||
-                box.classList.contains("hidden")
+                box.classList.contains(
+                    "hidden"
+                )
             ) {
 
                 return;
 
             }
 
-            if (event.key === "Escape") {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
 
                 closeLightbox();
 
             }
 
-            if (event.key === "ArrowLeft") {
+
+            if (
+                event.key ===
+                "ArrowLeft"
+            ) {
 
                 changeGallery(-1);
 
             }
 
-            if (event.key === "ArrowRight") {
+
+            if (
+                event.key ===
+                "ArrowRight"
+            ) {
 
                 changeGallery(1);
 
@@ -1859,25 +2118,34 @@ function setupGallery() {
 
 function openLightbox(index) {
 
-    if (!galleryItems.length) {
+    if (
+        !galleryItems.length
+    ) {
 
         return;
 
     }
 
-    galleryIndex = index;
+
+    galleryIndex =
+        index;
+
 
     const lightbox =
         $("lightbox");
 
+
     if (!lightbox) return;
+
 
     lightbox.classList.remove(
         "hidden"
     );
 
+
     document.body.style.overflow =
         "hidden";
+
 
     updateLightbox();
 
@@ -1890,22 +2158,31 @@ function openLightbox(index) {
 
 function updateLightbox() {
 
-    if (!galleryItems.length) {
+    if (
+        !galleryItems.length
+    ) {
 
         return;
 
     }
 
+
     const currentItem =
-        galleryItems[galleryIndex];
+        galleryItems[
+            galleryIndex
+        ];
+
 
     if (!currentItem) return;
+
 
     const image =
         $("lightboxImage");
 
+
     const counter =
         $("lightCounter");
+
 
     if (image) {
 
@@ -1915,6 +2192,7 @@ function updateLightbox() {
             "";
 
     }
+
 
     if (counter) {
 
@@ -1932,11 +2210,14 @@ function updateLightbox() {
 
 function changeGallery(step) {
 
-    if (!galleryItems.length) {
+    if (
+        !galleryItems.length
+    ) {
 
         return;
 
     }
+
 
     galleryIndex =
         (
@@ -1945,6 +2226,7 @@ function changeGallery(step) {
             galleryItems.length
         ) %
         galleryItems.length;
+
 
     updateLightbox();
 
@@ -1960,6 +2242,7 @@ function closeLightbox() {
     const lightbox =
         $("lightbox");
 
+
     if (lightbox) {
 
         lightbox.classList.add(
@@ -1968,7 +2251,9 @@ function closeLightbox() {
 
     }
 
-    document.body.style.overflow = "";
+
+    document.body.style.overflow =
+        "";
 
 }
 
@@ -1984,7 +2269,10 @@ function setupReveal() {
             ".reveal"
         );
 
-    if (!("IntersectionObserver" in window)) {
+
+    if (
+        !("IntersectionObserver" in window)
+    ) {
 
         elements.forEach(
             element =>
@@ -1996,6 +2284,7 @@ function setupReveal() {
         return;
 
     }
+
 
     const observer =
         new IntersectionObserver(
@@ -2012,6 +2301,7 @@ function setupReveal() {
                                 "visible"
                             );
 
+
                             observer.unobserve(
                                 entry.target
                             );
@@ -2027,9 +2317,12 @@ function setupReveal() {
             }
         );
 
+
     elements.forEach(
         element =>
-            observer.observe(element)
+            observer.observe(
+                element
+            )
     );
 
 }
@@ -2044,11 +2337,15 @@ function updateProgress() {
     const progress =
         $("progressBar");
 
+
     if (!progress) return;
 
+
     const height =
-        document.documentElement.scrollHeight -
+        document.documentElement
+            .scrollHeight -
         window.innerHeight;
+
 
     const width =
         height > 0
@@ -2057,6 +2354,7 @@ function updateProgress() {
                 height
             ) * 100
             : 0;
+
 
     progress.style.width =
         `${Math.min(
@@ -2076,6 +2374,7 @@ function showToast(message) {
     const toast =
         $("toast");
 
+
     if (!toast) {
 
         console.log(
@@ -2087,16 +2386,20 @@ function showToast(message) {
 
     }
 
+
     toast.textContent =
         message;
+
 
     toast.classList.add(
         "show"
     );
 
+
     clearTimeout(
         window.upYatraToastTimer
     );
+
 
     window.upYatraToastTimer =
         setTimeout(
@@ -2142,7 +2445,7 @@ function escapeHtml(value) {
 
 
 /* =========================================================
-   ESCAPE JS STRING
+   ESCAPE JAVASCRIPT STRING
 ========================================================= */
 
 function escapeJs(value) {
@@ -2177,6 +2480,12 @@ function escapeJs(value) {
 /* =========================================================
    LIVE WEATHER
    Open-Meteo API
+   No API key required
+========================================================= */
+
+
+/* =========================================================
+   UP DESTINATION WEATHER LOCATIONS
 ========================================================= */
 
 const weatherLocations = {
@@ -2257,7 +2566,7 @@ const weatherLocations = {
 
 
 /* =========================================================
-   WEATHER DESCRIPTION
+   WEATHER CODE DESCRIPTION
 ========================================================= */
 
 function getWeatherDescription(code) {
@@ -2265,35 +2574,63 @@ function getWeatherDescription(code) {
     const weatherCodes = {
 
         0: "Clear Sky ☀️",
+
         1: "Mainly Clear 🌤️",
+
         2: "Partly Cloudy ⛅",
+
         3: "Overcast ☁️",
+
         45: "Foggy 🌫️",
+
         48: "Foggy 🌫️",
+
         51: "Light Drizzle 🌦️",
+
         53: "Drizzle 🌦️",
+
         55: "Heavy Drizzle 🌧️",
+
         56: "Freezing Drizzle 🌧️",
+
         57: "Heavy Freezing Drizzle 🌧️",
+
         61: "Light Rain 🌦️",
+
         63: "Rain 🌧️",
+
         65: "Heavy Rain 🌧️",
+
         66: "Freezing Rain 🌧️",
+
         67: "Heavy Freezing Rain 🌧️",
+
         71: "Light Snow ❄️",
+
         73: "Snow ❄️",
+
         75: "Heavy Snow ❄️",
+
         77: "Snow Grains ❄️",
+
         80: "Rain Showers 🌦️",
+
         81: "Rain Showers 🌧️",
+
         82: "Heavy Rain Showers 🌧️",
+
         85: "Snow Showers ❄️",
+
         86: "Heavy Snow Showers ❄️",
+
         95: "Thunderstorm ⛈️",
+
         96: "Thunderstorm with Hail ⛈️",
+
         99: "Heavy Thunderstorm ⛈️"
 
     };
+
 
     return (
         weatherCodes[code] ||
@@ -2312,6 +2649,7 @@ async function getWeather(slug) {
     const location =
         weatherLocations[slug];
 
+
     if (!location) {
 
         throw new Error(
@@ -2320,6 +2658,7 @@ async function getWeather(slug) {
 
     }
 
+
     const url =
         `https://api.open-meteo.com/v1/forecast` +
         `?latitude=${location.latitude}` +
@@ -2327,8 +2666,34 @@ async function getWeather(slug) {
         `&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m` +
         `&timezone=Asia%2FKolkata`;
 
-    const response =
-        await fetch(url);
+
+    const controller =
+        new AbortController();
+
+    const timeoutId =
+        setTimeout(
+            () => controller.abort(),
+            12000
+        );
+
+    let response;
+
+    try {
+
+        response =
+            await fetch(
+                url,
+                {
+                    signal: controller.signal
+                }
+            );
+
+    } finally {
+
+        clearTimeout(timeoutId);
+
+    }
+
 
     if (!response.ok) {
 
@@ -2338,16 +2703,21 @@ async function getWeather(slug) {
 
     }
 
+
     const data =
         await response.json();
 
-    if (!data.current) {
+
+    if (
+        !data.current
+    ) {
 
         throw new Error(
             "Weather data unavailable"
         );
 
     }
+
 
     return {
 
@@ -2388,6 +2758,7 @@ function displayWeather(data) {
     const weatherBox =
         $("weatherResult");
 
+
     if (!weatherBox) {
 
         console.warn(
@@ -2397,6 +2768,7 @@ function displayWeather(data) {
         return;
 
     }
+
 
     weatherBox.innerHTML = `
 
@@ -2409,28 +2781,29 @@ function displayWeather(data) {
                 </span>
 
                 <h3>
-                    ${escapeHtml(
-                        data.location
-                    )}
+                    ${escapeHtml(data.location)}
                 </h3>
 
             </div>
 
+
             <div class="weather-main">
 
                 <div class="weather-temperature">
-                    ${escapeHtml(
-                        data.temperature
-                    )}°C
+
+                    ${escapeHtml(data.temperature)}°C
+
                 </div>
 
+
                 <div class="weather-condition">
-                    ${escapeHtml(
-                        data.description
-                    )}
+
+                    ${escapeHtml(data.description)}
+
                 </div>
 
             </div>
+
 
             <div class="weather-details">
 
@@ -2443,12 +2816,11 @@ function displayWeather(data) {
                     </strong>
 
                     <b>
-                        ${escapeHtml(
-                            data.feelsLike
-                        )}°C
+                        ${escapeHtml(data.feelsLike)}°C
                     </b>
 
                 </div>
+
 
                 <div class="weather-detail">
 
@@ -2459,12 +2831,11 @@ function displayWeather(data) {
                     </strong>
 
                     <b>
-                        ${escapeHtml(
-                            data.humidity
-                        )}%
+                        ${escapeHtml(data.humidity)}%
                     </b>
 
                 </div>
+
 
                 <div class="weather-detail">
 
@@ -2475,22 +2846,24 @@ function displayWeather(data) {
                     </strong>
 
                     <b>
-                        ${escapeHtml(
-                            data.wind
-                        )} km/h
+                        ${escapeHtml(data.wind)} km/h
                     </b>
 
                 </div>
 
             </div>
 
+
             <p class="weather-source">
+
                 🌐 Live weather powered by Open-Meteo
+
             </p>
 
         </div>
 
     `;
+
 
     weatherBox.classList.remove(
         "hidden"
@@ -2508,7 +2881,9 @@ function showWeatherError(message) {
     const weatherBox =
         $("weatherResult");
 
+
     if (!weatherBox) return;
+
 
     weatherBox.innerHTML = `
 
@@ -2518,9 +2893,11 @@ function showWeatherError(message) {
                 ⚠️
             </div>
 
+
             <h3>
                 Weather unavailable
             </h3>
+
 
             <p>
                 ${escapeHtml(message)}
@@ -2529,6 +2906,7 @@ function showWeatherError(message) {
         </div>
 
     `;
+
 
     weatherBox.classList.remove(
         "hidden"
@@ -2546,11 +2924,13 @@ async function loadWeather(slug) {
     const weatherBox =
         $("weatherResult");
 
+
     if (weatherBox) {
 
         weatherBox.classList.remove(
             "hidden"
         );
+
 
         weatherBox.innerHTML = `
 
@@ -2570,14 +2950,17 @@ async function loadWeather(slug) {
 
     }
 
+
     try {
 
         weatherData =
             await getWeather(slug);
 
+
         displayWeather(
             weatherData
         );
+
 
     } catch (error) {
 
@@ -2586,9 +2969,16 @@ async function loadWeather(slug) {
             error
         );
 
+        const message =
+            error.name === "AbortError"
+                ? "Weather request timed out. Internet connection check karke dobara try karo."
+                : (
+                    error.message ||
+                    "Live weather load nahi ho pa raha."
+                );
+
         showWeatherError(
-            error.message ||
-            "Live weather load nahi ho pa raha."
+            message
         );
 
     }
@@ -2602,22 +2992,39 @@ async function loadWeather(slug) {
 
 function setupWeather() {
 
+    /* Support both possible HTML IDs */
     const weatherSelect =
-        $("weatherDestination");
+        $("weatherDestination") ||
+        $("weatherCity");
 
     const weatherButton =
         $("weatherBtn");
 
     if (!weatherSelect) {
 
-        console.log(
-            "Weather selector not found."
+        console.warn(
+            "Weather selector not found. Use id=\"weatherDestination\" on the weather <select>."
         );
 
         return;
 
     }
 
+    /* If the select has no options, create all UP destinations */
+    if (weatherSelect.options.length === 0) {
+
+        weatherSelect.innerHTML =
+            Object.entries(weatherLocations)
+                .map(([slug, location]) => `
+                    <option value="${escapeHtml(slug)}">
+                        ${escapeHtml(location.name)}
+                    </option>
+                `)
+                .join("");
+
+    }
+
+    /* DEFAULT WEATHER */
     if (weatherSelect.value) {
 
         loadWeather(
@@ -2626,11 +3033,14 @@ function setupWeather() {
 
     }
 
+    /* WEATHER BUTTON */
     if (weatherButton) {
 
         weatherButton.addEventListener(
             "click",
-            function () {
+            function (event) {
+
+                event.preventDefault();
 
                 const slug =
                     weatherSelect.value;
@@ -2645,13 +3055,16 @@ function setupWeather() {
 
                 }
 
-                loadWeather(slug);
+                loadWeather(
+                    slug
+                );
 
             }
         );
 
     }
 
+    /* DESTINATION CHANGE */
     weatherSelect.addEventListener(
         "change",
         function () {
@@ -2661,7 +3074,9 @@ function setupWeather() {
 
             if (slug) {
 
-                loadWeather(slug);
+                loadWeather(
+                    slug
+                );
 
             }
 
@@ -2677,7 +3092,9 @@ function setupWeather() {
 
 function showDestinationWeather(slug) {
 
-    if (!weatherLocations[slug]) {
+    if (
+        !weatherLocations[slug]
+    ) {
 
         showToast(
             "Weather information unavailable"
@@ -2687,8 +3104,10 @@ function showDestinationWeather(slug) {
 
     }
 
+
     const weatherSection =
         $("weather");
+
 
     if (weatherSection) {
 
@@ -2699,8 +3118,11 @@ function showDestinationWeather(slug) {
 
     }
 
+
     const weatherSelect =
-        $("weatherDestination");
+        $("weatherDestination") ||
+        $("weatherCity");
+
 
     if (weatherSelect) {
 
@@ -2709,464 +3131,394 @@ function showDestinationWeather(slug) {
 
     }
 
-    loadWeather(slug);
+
+    loadWeather(
+        slug
+    );
 
 }
 
 
+/* =========================================================
+   WEATHER GLOBAL FUNCTIONS
+========================================================= */
+
 window.loadWeather =
     loadWeather;
+
 
 window.showDestinationWeather =
     showDestinationWeather;
 
 
 /* =========================================================
+   INITIALIZE EXTRA COMPONENTS
+========================================================= */
+
+
+
+/* =========================================================
    REAL STAYS
-   UPSTDC PROPERTY LIST
 ========================================================= */
 
-const realStays = [
+async function setupStays() {
 
-    {
-        id: 1,
-        name: "Hotel Taj Khema",
-        city: "Agra",
-        location:
-            "Near Eastern Gate of Taj Mahal, Tajganj, Agra, Uttar Pradesh",
-        type: "UPSTDC Hotel",
-        phone: "9415902742",
-        image:
-            "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=85"
-    },
+    const grid = $("stayGrid");
 
-    {
-        id: 2,
-        name: "Hotel Saket",
-        city: "Ayodhya",
-        location:
-            "Near Ayodhya Railway Station, Ayodhya, Uttar Pradesh",
-        type: "UPSTDC Hotel",
-        phone: "9451090074",
-        image:
-            "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=85"
-    },
+    if (!grid) return;
 
-    {
-        id: 3,
-        name: "Hotel Gomti",
-        city: "Lucknow",
-        location:
-            "Tej Bahadur Sapru Marg, Hazratganj, Lucknow, Uttar Pradesh",
-        type: "UPSTDC Hotel",
-        phone: "9453671319",
-        image:
-            "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=900&q=85"
-    },
+    try {
 
-    {
-        id: 4,
-        name: "Rahi Tourist Bungalow",
-        city: "Varanasi",
-        location:
-            "Parade Kothi, Near Cantt Railway Station, Varanasi, Uttar Pradesh",
-        type: "UPSTDC Tourist Bungalow",
-        phone: "9415902707",
-        image:
-            "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=900&q=85"
-    },
+        const data = await api("/api/stays");
 
-    {
-        id: 5,
-        name: "Rahi Tourist Bungalow Sarnath",
-        city: "Sarnath",
-        location:
-            "Sarnath Station Road, Sarnath, Varanasi, Uttar Pradesh",
-        type: "UPSTDC Tourist Bungalow",
-        phone: "8789773573",
-        image:
-            "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=85"
-    },
+        /* Backend returns {success, count, stays: []} */
+        stays = Array.isArray(data)
+            ? data
+            : (Array.isArray(data.stays) ? data.stays : []);
 
-    {
-        id: 6,
-        name: "Rahi Ilawart Tourist Bungalow",
-        city: "Prayagraj",
-        location:
-            "M.G. Marg, Civil Lines, Prayagraj, Uttar Pradesh",
-        type: "UPSTDC Tourist Bungalow",
-        phone: "9415311133",
-        image:
-            "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=85"
-    },
+        renderStays();
+        setupStayFilters();
 
-    {
-        id: 7,
-        name: "Rahi Triveni Darshan",
-        city: "Prayagraj",
-        location:
-            "Yamuna Bank Road, Kydganj, Prayagraj, Uttar Pradesh",
-        type: "UPSTDC Hotel",
-        phone: "9532437599",
-        image:
-            "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=900&q=85"
-    },
+    } catch (error) {
 
-    {
-        id: 8,
-        name: "Rahi Veerangana Tourist Bungalow",
-        city: "Jhansi",
-        location:
-            "Civil Lines, Jhansi, Uttar Pradesh",
-        type: "UPSTDC Tourist Bungalow",
-        phone: "9415609450",
-        image:
-            "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=900&q=85"
-    },
+        console.error("Stay loading error:", error);
 
-    {
-        id: 9,
-        name: "Rahi Gulistan Tourist Complex",
-        city: "Fatehpur Sikri",
-        location:
-            "Shahkuli, Fatehpur Sikri, Agra, Uttar Pradesh",
-        type: "UPSTDC Tourist Complex",
-        phone: "9415233448",
-        image:
-            "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=85"
-    },
-
-    {
-        id: 10,
-        name: "Rahi Tourist Bungalow",
-        city: "Kanpur",
-        location:
-            "Bithoor, Kanpur, Uttar Pradesh",
-        type: "UPSTDC Tourist Bungalow",
-        phone: "9415609464",
-        image:
-            "https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&fit=crop&w=900&q=85"
-    }
-
-];
-
-
-/* =========================================================
-   STAY STATE
-========================================================= */
-
-let currentStayCity = "All";
-
-
-/* =========================================================
-   GOOGLE MAPS URL
-========================================================= */
-
-function getStayMapUrl(stay) {
-
-    const query =
-        encodeURIComponent(
-            `${stay.name}, ${stay.location}`
-        );
-
-    return (
-        `https://www.google.com/maps/search/?api=1&query=${query}`
-    );
-
-}
-
-
-/* =========================================================
-   WHATSAPP CONTACT URL
-========================================================= */
-
-function getStayWhatsAppUrl(stay) {
-
-    const phone =
-        String(stay.phone || "")
-            .replace(/\D/g, "");
-
-    if (!phone) {
-
-        return "";
-
-    }
-
-    /*
-       India country code = 91
-
-       Agar number already 91 se start ho raha hai,
-       to dobara 91 add nahi karenge.
-    */
-
-    const whatsappNumber =
-        phone.startsWith("91")
-            ? phone
-            : `91${phone}`;
-
-    const message =
-        encodeURIComponent(
-            `Hello, I want information about ${stay.name} in ${stay.city}, Uttar Pradesh.`
-        );
-
-    return (
-        `https://wa.me/${whatsappNumber}?text=${message}`
-    );
-
-}
-
-
-/* =========================================================
-   RENDER REAL STAYS
-========================================================= */
-
-function loadRealStays(city = "All") {
-
-    const stayGrid =
-        $("stayGrid");
-
-    if (!stayGrid) {
-
-        return;
-
-    }
-
-    currentStayCity =
-        city;
-
-    let filteredStays;
-
-    if (city === "All") {
-
-        filteredStays =
-            realStays;
-
-    } else {
-
-        filteredStays =
-            realStays.filter(
-                stay =>
-                    stay.city === city
-            );
-
-    }
-
-    if (!filteredStays.length) {
-
-        stayGrid.innerHTML = `
-
-            <div class="no-stays">
-
-                <div class="no-stays-icon">
-                    🏨
-                </div>
-
-                <h3>
-                    No stays found
-                </h3>
-
-                <p>
-                    More UP properties will be added soon.
-                </p>
-
+        grid.innerHTML = `
+            <div class="stay-empty">
+                <div class="stay-empty-icon">🏨</div>
+                <h3>Stays temporarily unavailable</h3>
+                <p>${escapeHtml(error.message || "Unable to load stay properties.")}</p>
             </div>
+        `;
 
+    }
+}
+
+function setupStayFilters() {
+
+    const buttons = document.querySelectorAll(".stay-filter");
+
+    if (!buttons.length) return;
+
+    buttons.forEach(button => {
+
+        button.addEventListener("click", function () {
+
+            currentStayCity = this.dataset.city || "All";
+
+            buttons.forEach(btn => btn.classList.remove("active"));
+            this.classList.add("active");
+
+            renderStays();
+
+        });
+
+    });
+}
+
+function normalizeCity(value) {
+
+    return String(value || "")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ");
+}
+
+function renderStays() {
+
+    const grid = $("stayGrid");
+
+    if (!grid) return;
+
+    const city = normalizeCity(currentStayCity);
+
+    const filtered = city === "all"
+        ? stays
+        : stays.filter(stay => normalizeCity(stay.city) === city);
+
+    if (!filtered.length) {
+
+        grid.innerHTML = `
+            <div class="stay-empty">
+                <div class="stay-empty-icon">🏨</div>
+                <h3>No properties found</h3>
+                <p>Try another city.</p>
+            </div>
         `;
 
         return;
-
     }
 
-    stayGrid.innerHTML =
-        filteredStays.map(stay => {
+    grid.innerHTML = filtered.map(stay => {
 
-            const mapURL =
-                getStayMapUrl(stay);
+        const image = stay.image ||
+            "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=85";
 
-            const whatsappURL =
-                getStayWhatsAppUrl(stay);
+        const phone = String(stay.phone || "").replace(/[^0-9+]/g, "");
+        const bookingUrl = String(stay.booking_url || "").trim();
 
-            return `
+        return `
+            <article class="stay-card reveal visible">
 
-                <article
-                    class="stay-card reveal visible"
-                >
+                <div class="stay-image-wrap">
+                    <img
+                        class="stay-image"
+                        src="${escapeHtml(image)}"
+                        alt="${escapeHtml(stay.name || "UP stay property")}, ${escapeHtml(stay.city || "Uttar Pradesh")}"
+                        loading="lazy"
+                        onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=85'"
+                    >
 
-                    <div class="stay-image">
+                    <span class="stay-badge">
+                        ${escapeHtml(stay.category || "Accommodation")}
+                    </span>
+                </div>
 
-                        <img
-                            src="${escapeHtml(
-                                stay.image
-                            )}"
-                            alt="${escapeHtml(
-                                stay.name
-                            )}"
-                            loading="lazy"
-                            onerror="
-                                this.style.display='none'
-                            "
-                        >
+                <div class="stay-body">
 
-                        <span class="stay-badge">
-                            ✓ Real Property
-                        </span>
+                    <p class="stay-city">
+                        📍 ${escapeHtml(stay.city || "Uttar Pradesh")}
+                    </p>
 
-                    </div>
+                    <h3>
+                        ${escapeHtml(stay.name || "UP Stay")}
+                    </h3>
 
-                    <div class="stay-content">
+                    <p class="stay-location">
+                        ${escapeHtml(stay.location || "Uttar Pradesh")}
+                    </p>
 
-                        <span class="stay-type">
-                            ${escapeHtml(
-                                stay.type
-                            )}
-                        </span>
+                    <div class="stay-actions">
 
-                        <h3>
-                            ${escapeHtml(
-                                stay.name
-                            )}
-                        </h3>
+                        ${phone ? `
+                            <button
+                                type="button"
+                                class="stay-btn stay-contact"
+                                onclick="contactStay('${escapeJs(phone)}', '${escapeJs(stay.name || "Stay")}')"
+                            >
+                                📞 Contact
+                            </button>
+                        ` : `
+                            <button
+                                type="button"
+                                class="stay-btn stay-disabled"
+                                disabled
+                            >
+                                📞 No Phone
+                            </button>
+                        `}
 
-                        <p class="stay-city">
-                            📍
-                            ${escapeHtml(
-                                stay.city
-                            )},
-                            Uttar Pradesh
-                        </p>
-
-                        <p class="stay-location">
-                            ${escapeHtml(
-                                stay.location
-                            )}
-                        </p>
-
-                        <div class="stay-actions">
-
+                        ${bookingUrl ? `
                             <a
-                                href="${mapURL}"
+                                href="${escapeHtml(bookingUrl)}"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="btn primary"
+                                class="stay-btn stay-book"
                             >
-                                📍 View Location
+                                🔗 Booking
                             </a>
-
-                            ${
-                                whatsappURL
-                                    ? `
-                                        <a
-                                            href="${whatsappURL}"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            class="btn dark"
-                                        >
-                                            📞 Contact on WhatsApp
-                                        </a>
-                                      `
-                                    : `
-                                        <button
-                                            type="button"
-                                            class="btn dark"
-                                            onclick="showToast('Contact number not available')"
-                                        >
-                                            📞 Contact
-                                        </button>
-                                      `
-                            }
-
-                        </div>
+                        ` : `
+                            <span class="stay-btn stay-disabled">
+                                🔗 No Booking Link
+                            </span>
+                        `}
 
                     </div>
 
-                </article>
+                </div>
+
+            </article>
+        `;
+
+    }).join("");
+}
+
+function contactStay(phone, name) {
+
+    const cleanPhone = String(phone || "").replace(/[^0-9+]/g, "");
+
+    if (!cleanPhone) {
+        showToast("Phone number unavailable");
+        return;
+    }
+
+    /* Mobile: open the phone dialer */
+    if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        window.location.href = `tel:${cleanPhone}`;
+        return;
+    }
+
+    /* Desktop: show the phone number clearly */
+    const modal = $("destinationModal");
+
+    if (modal) {
+
+        const image = $("modalImage");
+        const category = $("modalCategory");
+        const title = $("modalTitle");
+        const description = $("modalDescription");
+        const location = $("modalLocation");
+        const time = $("modalTime");
+        const food = $("modalFood");
+        const places = $("modalPlaces");
+        const fav = $("modalFav");
+        const map = $("modalMap");
+
+        if (image) image.style.display = "none";
+        if (category) category.textContent = "STAY CONTACT";
+        if (title) title.textContent = name || "Stay";
+        if (description) description.textContent = "Contact this property using the phone number below.";
+        if (location) location.textContent = "Uttar Pradesh";
+        if (time) time.textContent = "Check current availability with the property";
+        if (food) food.textContent = "Ask the property for available services";
+        if (places) places.textContent = "Phone: " + cleanPhone;
+        if (fav) fav.style.display = "none";
+        if (map) map.style.display = "none";
+
+        modal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+
+        return;
+    }
+
+    showToast(`${name || "Stay"}: ${cleanPhone}`);
+}
+
+window.contactStay = contactStay;
+
+
+/* =========================================================
+   SMART BUDGET CALCULATOR
+========================================================= */
+
+function setupBudgetCalculator() {
+
+    const form =
+        $("budgetForm");
+
+    const result =
+        $("budgetResult");
+
+    if (!form || !result) return;
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+            const people =
+                Math.max(1, Number($("budgetPeople")?.value || 1));
+
+            const days =
+                Math.max(1, Number($("budgetDays")?.value || 1));
+
+            const hotel =
+                Math.max(0, Number($("budgetHotel")?.value || 0));
+
+            const food =
+                Math.max(0, Number($("budgetFood")?.value || 0));
+
+            const transport =
+                Math.max(0, Number($("budgetTransport")?.value || 0));
+
+            const activities =
+                Math.max(0, Number($("budgetActivities")?.value || 0));
+
+            const hotelTotal =
+                people * Math.max(0, days - 1) * hotel;
+
+            const foodTotal =
+                people * days * food;
+
+            const transportTotal =
+                people * days * transport;
+
+            const activityTotal =
+                people * days * activities;
+
+            const total =
+                hotelTotal +
+                foodTotal +
+                transportTotal +
+                activityTotal;
+
+            const formatMoney =
+                value =>
+                    "₹ " +
+                    Math.round(value).toLocaleString("en-IN");
+
+            result.innerHTML = `
+
+                <p class="eyebrow">
+                    ESTIMATED COST
+                </p>
+
+                <h3>
+                    ${formatMoney(total)}
+                </h3>
+
+                <p class="muted budget-subtitle">
+                    For ${people} traveller${people > 1 ? "s" : ""} • ${days} day${days > 1 ? "s" : ""}
+                </p>
+
+                <div class="budget-breakdown">
+
+                    <div>
+                        <span>🏨 Hotel</span>
+                        <strong>${formatMoney(hotelTotal)}</strong>
+                    </div>
+
+                    <div>
+                        <span>🍛 Food</span>
+                        <strong>${formatMoney(foodTotal)}</strong>
+                    </div>
+
+                    <div>
+                        <span>🚆 Transport</span>
+                        <strong>${formatMoney(transportTotal)}</strong>
+                    </div>
+
+                    <div>
+                        <span>🎟️ Activities</span>
+                        <strong>${formatMoney(activityTotal)}</strong>
+                    </div>
+
+                </div>
+
+                <p class="budget-note">
+                    This is a planning estimate based only on the values you entered.
+                    It does not include flights, unexpected expenses or taxes unless you add them in your rates.
+                </p>
 
             `;
 
-        }).join("");
+            showToast(
+                "Budget estimate calculated"
+            );
+
+        }
+    );
 
 }
 
 
-/* =========================================================
-   STAY FILTERS
-========================================================= */
 
-function initializeStayFilters() {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    const filters =
-        document.querySelectorAll(
-            ".stay-filter"
-        );
+        setupModal();
 
-    filters.forEach(button => {
+        setupPlanner();
 
-        button.addEventListener(
-            "click",
-            function () {
+        setupContactForm();
 
-                filters.forEach(
-                    item =>
-                        item.classList.remove(
-                            "active"
-                        )
-                );
+        setupWeather();
 
-                this.classList.add(
-                    "active"
-                );
+        setupBudgetCalculator();
 
-                const city =
-                    this.dataset.city ||
-                    "All";
-
-                loadRealStays(city);
-
-            }
-        );
-
-    });
-
-}
-
-
-/* =========================================================
-   STAY SETUP
-========================================================= */
-
-function setupStay() {
-
-    const stayGrid =
-        $("stayGrid");
-
-    if (!stayGrid) {
-
-        return;
+        setupStays();
 
     }
-
-    loadRealStays("All");
-
-    initializeStayFilters();
-
-}
-
-
-/* =========================================================
-   STAY GLOBAL FUNCTIONS
-========================================================= */
-
-window.loadRealStays =
-    loadRealStays;
-
-window.setupStay =
-    setupStay;
-
-
-/* =========================================================
-   FINAL INITIALIZATION
-========================================================= */
-
-console.log(
-    "UP Yatra - All JavaScript modules ready"
 );
